@@ -1,0 +1,3 @@
+encode password
+implement add-user api
+refactor add-book and delete-book apis

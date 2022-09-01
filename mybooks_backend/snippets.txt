@@ -1,0 +1,188 @@
+//*refactored
+    private boolean checkIfAlreadyExists(Book book, String username) throws UserNotFoundException {
+        User user = userRepository.findByUsername(username);
+        List<Book> books = null;
+
+        if (user == null) {
+            throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
+        }
+
+        books = user.getBooks();
+
+        if (books != null) {
+            for (Book elem : books) {
+                if (elem.getCallNumber().equals(book.getCallNumber())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+ // @Test - Had to remove @Transactional for this to work well
+ //        Book book2 = new Book();
+ //        book2.setTitle("Book test 1");
+ //
+ //        Author author = new Author();
+ //        author.setFirstName("Author test 1");
+ //
+ //        book2.addAuthor(author);
+ //        author.addBook(book2);
+ //
+ //        User user = new User();
+ //        user.setFirstName("User test 1");
+ //        book2.setUser(user);
+ //        author.setUser(user);
+ //        userRepository.save(user);
+ //        authorRepository.save(author);
+ //        bookRepository.save(book2);
+
+
+
+ //no se si lo soñe pero según yo esto funcionaba ayer, pero ahora no está guardando los users
+ en las tablas, excepto en book *refactored
+
+ public BookResponse addNewBook(Book book, String username) throws BookAlreadyExistsException {
+
+        boolean alreadyExists = checkIfAlreadyExists(book, username);
+
+        if (alreadyExists) {
+            throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        List<Author> authors = book.getAuthors();
+        if (authors != null && user != null) {
+            for (Author author : authors) {
+                author.addBook(book);
+                author.setUser(user);
+                user.addAuthor(author);
+                userRepository.save(user);
+                authorRepository.save(author);
+            }
+        }
+
+        List<Tag> tags = book.getTags();
+        if (tags != null && user != null) {
+            for (Tag tag : tags) {
+                tag.addBook(book);
+                tag.setUser(user);
+                user.addTag(tag);
+                userRepository.save(user);
+                tagRepository.save(tag);
+            }
+        }
+
+        Publisher publisher = book.getPublisher();
+        if (publisher != null && user != null) {
+            publisher.addBook(book);
+            publisher.setUser(user);
+            user.addPublisher(publisher);
+            userRepository.save(user);
+            publisherRepository.save(publisher);
+        }
+
+        Category category = book.getCategory();
+        if (category != null) {
+            category.addBook(book);
+            category.setUser(user);
+            user.addCategory(category);
+            userRepository.save(user);
+            categoryRepository.save(category);
+        }
+
+        Collection collection = book.getCollection();
+        if (collection != null && user !=null) {
+            collection.addBook(book);
+            collection.setUser(user);
+            user.addCollection(collection);
+            userRepository.save(user);
+            collectionRepository.save(collection);
+        }
+
+        if (user != null) {
+            user.addBook(book);
+            //userRepository.save(user);
+            book.setUser(user);
+            userRepository.save(user);
+        }
+
+        bookRepository.save(book);
+
+        return createBookResponse(book);
+    }
+
+
+
+//deleting customcollections from user *refactored
+
+List<CustomCollection> userCustomCollections = user.getCustomCollections();
+        for (CustomCollection customCollection : userCustomCollections) {
+            if (customCollection.getBooks().size() == 0) {
+                user.getCustomCollections().remove(customCollection);
+                customCollection.setUser(null);
+                userRepository.save(user);
+                customCollectionRepository.save(customCollection);
+                customCollectionRepository.deleteById(customCollection.getId());
+            }
+        }
+
+
+// first implementation of addNewBook *refactored
+public BookResponse addNewBook(Book book, String username) throws BookAlreadyExistsException {
+
+        boolean alreadyExists = checkIfAlreadyExists(book, username);
+
+        if (alreadyExists) {
+            throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
+        }
+
+        List<Author> authors = book.getAuthors();
+        if (authors != null) {
+            for (Author author : authors) {
+                author.addBook(book);
+                authorRepository.save(author);
+            }
+        }
+
+        List<Tag> tags = book.getTags();
+        if (tags != null) {
+            for (Tag tag : tags) {
+                tag.addBook(book);
+                tagRepository.save(tag);
+            }
+        }
+
+        Publisher publisher = book.getPublisher();
+        if (publisher != null) {
+            publisher.addBook(book);
+            publisherRepository.save(publisher);
+        }
+
+        Category category = book.getCategory();
+        if (category != null) {
+            category.addBook(book);
+            categoryRepository.save(category);
+        }
+
+        Collection collection = book.getCollection();
+        if (collection != null) {
+            collection.addBook(book);
+            collectionRepository.save(collection);
+        }
+
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.addBook(book);
+            userRepository.save(user);
+            book.setUser(user);
+
+        }
+
+        bookRepository.save(book);
+
+        return createBookResponse(book);
+    }

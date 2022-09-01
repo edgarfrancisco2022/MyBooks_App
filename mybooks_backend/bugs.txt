@@ -1,0 +1,78 @@
+
+
+Error executing DDL "
+    alter table book_tag
+       drop
+       foreign key FKdrc33u5ufw8rdvajeveowgx7g" via JDBC Statement
+
+GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table book_tag
+       drop
+       foreign key FKdrc33u5ufw8rdvajeveowgx7g" via JDBC Statement
+
+Try 1. change dialect to //MySQL8Dialect
+    FAILED
+
+Try 2. several other solutions
+    FAILED
+
+Try 3. changed to //spring.jpa.hibernate.ddl-auto=update //instead of create
+    FIXED
+        but now I can't use create
+
+*************************************************************************************************
+
+Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.edgarfrancisco.model.User.books, com.edgarfrancisco.model.User.customCollections]
+in ModelTest //createBook1()
+
+Try 1. add //@Fetch(value = FetchMode.SUBSELECT)// to all collections
+    FAILED //Error executing DDL
+           //Table 'user' already exists
+           //Cannot add or update a child row: a foreign key constraint fails (`mybooks`.`#sql-1370_91c`, CONSTRAINT `FKhdy2tbeexvmabkq9k1djmmiio` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`id`))
+
+Try 2. drop tables manually in database
+    FIXED
+
+
+
+
+
+
+
+
+
+
+
+
+DataIntegrityViolationException: could not execute statement; SQL [n/a];
+constraint [null]; nested exception is org.hibernate.exception
+
+@Test
+    void deleteBook3() { // deleting existing book // conditionally delete authors
+
+        Book book = bookRepository.findByTitle("Book 3");
+        List<Author> authors = new ArrayList<>();
+
+        for (Author author : book.getAuthors()) {
+            authors.add(author);
+        }
+
+        for (Author author : authors) {
+            author.getBooks().remove(book);
+            authorRepository.save(author);
+        }
+
+        for (Author author : authors) {
+            if (author.getBooks().size() == 0) {
+                authorRepository.deleteById(author.getId());
+            }
+        }
+
+        for (Author author : authors) {
+            book.getAuthors().remove(author);
+            bookRepository.save(book);
+        }
+
+        bookRepository.delete(book);
+
+    }

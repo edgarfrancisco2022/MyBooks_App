@@ -1,0 +1,37 @@
+{
+"callNumber":"001",
+"title":"Book 1",
+"subtitle":null,
+"year":1975,
+"numberOfPages":0,
+"numberOfCopies":0,
+"description":"Add first book",
+"bookImageUrl":null,
+"authors":[{"id":null,"firstName":"Author 1 firstName","middleName":null,"lastName":"Author 1 lastName","books":null},{"id":null,"firstName":"Author 2 firstName","middleName":null,"lastName":"Author 2 lastName","books":null}],
+"tags":[{"id":null,"tagName":"Tag 1","books":null},{"id":null,"tagName":"Tag 2","books":null}],
+"customCollections":null,
+"publisher":{"id":null,"publisherName":"Publisher 1","books":null},
+"category":{"id":null,"categoryName":"Category 1","books":null},
+"collection":null,
+"user":{"id":null,"userId":null,"firstName":"User 1","lastName":null,"username":null,"email":null,"password":null,"lastLoginDate":null,"displayLastLogin":null,"joinDate":null,"role":null,"books":null,"customCollections":null,"active":false,"locked":false,"authorities":null}
+}
+
+
+// without ids
+{
+"callNumber":"001",
+"title":"Book 1",
+"subtitle":null,
+"year":1975,
+"numberOfPages":0,
+"numberOfCopies":0,
+"description":"Add first book",
+"bookImageUrl":null,
+"authors":[{"firstName":"Author 1 firstName","middleName":null,"lastName":"Author 1 lastName","books":null},{"firstName":"Author 2 firstName","middleName":null,"lastName":"Author 2 lastName","books":null}],
+"tags":[{"tagName":"Tag 1","books":null},{"tagName":"Tag 2","books":null}],
+"customCollections":null,
+"publisher":{"publisherName":"Publisher 1","books":null},
+"category":{"categoryName":"Category 1","books":null},
+"collection":null,
+"user":{"userId":null,"firstName":"User 1","lastName":null,"username":null,"email":null,"password":null,"lastLoginDate":null,"displayLastLogin":null,"joinDate":null,"role":null,"books":null,"customCollections":null,"active":false,"locked":false,"authorities":null}
+}
