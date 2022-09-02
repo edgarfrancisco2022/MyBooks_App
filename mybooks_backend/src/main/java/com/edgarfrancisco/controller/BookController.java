@@ -31,7 +31,6 @@ public class BookController extends ExceptionHandling {
 
         List<BookResponse> books = bookService.getBooks(username);
         return new ResponseEntity<>(books, HttpStatus.OK);
-
     }
 
     @PostMapping("/add/{username}")
@@ -39,9 +38,17 @@ public class BookController extends ExceptionHandling {
                                                    @PathVariable("username") String username)
             throws BookAlreadyExistsException, UserNotFoundException {
 
-        BookResponse savedBook = bookService.addNewBook(book, username);
-        return new ResponseEntity<>(savedBook, HttpStatus.OK);
+        BookResponse bookResponse = bookService.addNewBook(book, username);
+        return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+    }
 
+    @PostMapping("/update/{username}")
+    public ResponseEntity<BookResponse> updateBook(@RequestBody Book book,
+                                                   @PathVariable("username") String username)
+            throws UserNotFoundException, BookNotFoundException {
+
+        BookResponse bookResponse = bookService.updateBook(book, username);
+        return new ResponseEntity<>(bookResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{username}/{callnumber}")
@@ -51,14 +58,11 @@ public class BookController extends ExceptionHandling {
 
         bookService.deleteBook(username, callNumber);
         return createHttpResponse(HttpStatus.OK, BOOK_DELETED_SUCCESSFULLY);
-
     }
 
     private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
 
         return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus,
                 httpStatus.getReasonPhrase(), message), httpStatus);
-
     }
-
 }

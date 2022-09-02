@@ -12,6 +12,8 @@ public interface BookService {
 
     BookResponse addNewBook(Book book, String username) throws BookAlreadyExistsException,
                                                                UserNotFoundException;
+    BookResponse updateBook(Book book, String username) throws UserNotFoundException,
+                                                               BookNotFoundException;
     void deleteBook(String username, String callNumber) throws UserNotFoundException,
                                                                BookNotFoundException;
     List<BookResponse> getBooks(String username) throws UserNotFoundException;

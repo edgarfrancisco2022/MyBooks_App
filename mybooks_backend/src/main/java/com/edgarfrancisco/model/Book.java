@@ -67,13 +67,10 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, String callNumber, String title, String subtitle, int year,
+    public Book(String callNumber, String title, String subtitle, int year,
                 int numberOfPages, int numberOfCopies, String description,
-                String bookImageUrl, List<Author> authors,
-                List<Tag> tags, List<CustomCollection> customCollections,
-                Publisher publisher, Category category, Collection collection,
-                User user) {
-        this.id = id;
+                String bookImageUrl, List<Author> authors, List<Tag> tags,
+                Publisher publisher, Category category, Collection collection) {
         this.callNumber = callNumber;
         this.title = title;
         this.subtitle = subtitle;
@@ -88,7 +85,6 @@ public class Book {
         this.publisher = publisher;
         this.category = category;
         this.collection = collection;
-        this.user = user;
     }
 
     /************************************************/

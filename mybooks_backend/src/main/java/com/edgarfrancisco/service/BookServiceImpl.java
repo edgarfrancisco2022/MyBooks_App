@@ -20,7 +20,6 @@ import static com.edgarfrancisco.constant.UserImplConstant.NO_USER_FOUND_BY_USER
 
 @Service
 public class BookServiceImpl implements BookService {
-
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
@@ -40,7 +39,7 @@ public class BookServiceImpl implements BookService {
 
     public List<BookResponse> getBooks(String username) throws UserNotFoundException {
 
-        validateBookAndUsername(null, StringUtils.EMPTY,username);
+        validateBookAndUsername(null, StringUtils.EMPTY, username);
 
         User user = userRepository.findByUsername(username);
         List<Book> books = user.getBooks();
@@ -55,15 +54,31 @@ public class BookServiceImpl implements BookService {
         return listOfBooks;
     }
 
-    public BookResponse addNewBook(Book book, String username) throws BookAlreadyExistsException, UserNotFoundException {
+    public BookResponse addNewBook(Book book, String username) throws UserNotFoundException, BookAlreadyExistsException {
 
-        boolean alreadyExists = validateBookAndUsername(book, StringUtils.EMPTY ,username);
+        boolean alreadyExists = validateBookAndUsername(book, StringUtils.EMPTY, username);
 
         if (alreadyExists) {
             throw new BookAlreadyExistsException(BOOK_ALREADY_EXISTS);
         }
 
-        book.setNumberOfCopies(1);
+        return addNewBookOrUpdateBook(book, username);
+    }
+
+    public BookResponse updateBook(Book book, String username) throws UserNotFoundException, BookNotFoundException {
+
+        boolean alreadyExists = validateBookAndUsername(book, StringUtils.EMPTY, username);
+
+        if (!alreadyExists) {
+            throw new BookNotFoundException(NO_BOOK_FOUND_WITH_CALLNUMBER + book.getCallNumber());
+        }
+
+        deleteBook(username, book.getCallNumber());
+
+        return addNewBookOrUpdateBook(book, username);
+    }
+
+    private BookResponse addNewBookOrUpdateBook(Book book, String username) {
 
         User user = userRepository.findByUsername(username);
 
@@ -75,9 +90,12 @@ public class BookServiceImpl implements BookService {
                 Optional authorExists = user.getAuthors().stream().filter(x -> x.equals(author)).findFirst();
                 if (authorExists.isPresent()) {
                     book.addAuthor((Author) authorExists.get());
+                    ((Author) authorExists.get()).addBook(book);
+                    authorRepository.save(((Author) authorExists.get()));
                 } else {
                     author.setUser(user);
                     book.addAuthor(author);
+                    author.addBook(book);
                     authorRepository.save(author);
                 }
             }
@@ -92,9 +110,12 @@ public class BookServiceImpl implements BookService {
                         .findFirst();
                 if (tagExists.isPresent()) {
                     book.addTag((Tag) tagExists.get());
+                    ((Tag) tagExists.get()).addBook(book);
+                    tagRepository.save(((Tag) tagExists.get()));
                 } else {
                     tag.setUser(user);
                     book.addTag(tag);
+                    tag.addBook(book);
                     tagRepository.save(tag);
                 }
             }
@@ -108,9 +129,12 @@ public class BookServiceImpl implements BookService {
                     .filter(x -> x.getPublisherName().equals(publisher.getPublisherName())).findFirst();
             if (publisherExists.isPresent()) {
                 book.setPublisher((Publisher) publisherExists.get());
+                ((Publisher) publisherExists.get()).addBook(book);
+                publisherRepository.save(((Publisher) publisherExists.get()));
             } else {
                 publisher.setUser(user);
                 book.setPublisher(publisher);
+                publisher.addBook(book);
                 publisherRepository.save(publisher);
             }
         }
@@ -123,9 +147,12 @@ public class BookServiceImpl implements BookService {
                     .filter(x -> x.getCategoryName().equals(category.getCategoryName())).findFirst();
             if (categoryExists.isPresent()) {
                 book.setCategory((Category) categoryExists.get());
+                ((Category) categoryExists.get()).addBook(book);
+                categoryRepository.save(((Category) categoryExists.get()));
             } else {
                 category.setUser(user);
                 book.setCategory(category);
+                category.addBook(book);
                 categoryRepository.save(category);
             }
         }
@@ -138,9 +165,12 @@ public class BookServiceImpl implements BookService {
                     .filter(x -> x.getCollectionName().equals(collection.getCollectionName())).findFirst();
             if (collectionExists.isPresent()) {
                 book.setCollection((Collection) collectionExists.get());
+                ((Collection) collectionExists.get()).addBook(book);
+                collectionRepository.save(((Collection) collectionExists.get()));
             } else {
                 collection.setUser(user);
                 book.setCollection(collection);
+                collection.addBook(book);
                 collectionRepository.save(collection);
             }
         }
@@ -177,6 +207,11 @@ public class BookServiceImpl implements BookService {
             }
             for (Author author : authors) {
                 book.removeAuthor(author);
+                author.removeBook(book);
+                if (author.getBooks().size() == 0) {
+                    author.setUser(null);
+                    dbUser.removeAuthor(author);
+                }
             }
         }
 
@@ -188,6 +223,11 @@ public class BookServiceImpl implements BookService {
             }
             for (Tag tag : tags) {
                 book.removeTag(tag);
+                tag.removeBook(book);
+                if (tag.getBooks().size() == 0) {
+                    tag.setUser(null);
+                    dbUser.removeTag(tag);
+                }
             }
         }
 
@@ -199,6 +239,7 @@ public class BookServiceImpl implements BookService {
             }
             for (CustomCollection customCollection : customCollections) {
                 book.removeCustomCollection(customCollection);
+                customCollection.removeBook(book);
             }
         }
 
@@ -206,18 +247,34 @@ public class BookServiceImpl implements BookService {
 
         if (publisher != null) {
             book.setPublisher(null);
+            publisher.removeBook(book);
+            if (publisher.getBooks().size() == 0) {
+                publisher.setUser(null);
+                dbUser.removePublisher(publisher);
+            }
+
         }
 
         Category category = book.getCategory();
 
         if (category != null) {
             book.setCategory(null);
+            category.removeBook(book);
+            if (category.getBooks().size() == 0) {
+                category.setUser(null);
+                dbUser.removeCategory(category);
+            }
         }
 
         Collection collection = book.getCollection();
 
         if (collection != null) {
             book.setCollection(null);
+            collection.removeBook(book);
+            if (collection.getBooks().size() == 0) {
+                collection.setUser(null);
+                dbUser.removeCollection(collection);
+            }
         }
 
         bookRepository.delete(book); // owning entity must be removed first
@@ -330,7 +387,7 @@ public class BookServiceImpl implements BookService {
         List<Book> books = user.getBooks();
 
         if (StringUtils.isNotEmpty(callNumber)) { //handles deleteBook()
-            Book dbBook = bookRepository.findByCallNumber(callNumber);
+            Book dbBook = books.stream().filter(x -> x.getCallNumber().equals(callNumber)).findFirst().orElse(null);
             if (dbBook != null) {
                 return true;
             }
