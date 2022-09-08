@@ -9,31 +9,34 @@ import com.edgarfrancisco.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.edgarfrancisco.constant.BookImplConstant.*;
+import static com.edgarfrancisco.constant.BookImplConstant.BOOK_ALREADY_EXISTS;
+import static com.edgarfrancisco.constant.BookImplConstant.NO_BOOK_FOUND_WITH_CALLNUMBER;
 import static com.edgarfrancisco.constant.UserImplConstant.NO_USER_FOUND_BY_USERNAME;
 
 @Service
 public class BookServiceImpl implements BookService {
-    @Autowired
-    private AuthorRepository authorRepository;
+
     @Autowired
     private BookRepository bookRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private AuthorRepository authorRepository;
     @Autowired
-    private CollectionRepository collectionRepository;
+    private TagRepository tagRepository;
     @Autowired
     private CustomCollectionRepository customCollectionRepository;
     @Autowired
     private PublisherRepository publisherRepository;
     @Autowired
-    private TagRepository tagRepository;
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private CollectionRepository collectionRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -85,9 +88,14 @@ public class BookServiceImpl implements BookService {
         List<Author> authors = book.getAuthors();
         book.setAuthors(null);
 
-        if (authors != null && user != null) {
+        if (authors != null && user != null && authors.size() > 0) {
             for (Author author : authors) {
-                Optional authorExists = user.getAuthors().stream().filter(x -> x.equals(author)).findFirst();
+                Optional authorExists = Optional.empty();
+
+                if (user.getAuthors() != null) {
+                    authorExists = user.getAuthors().stream().filter(x -> x.equals(author)).findFirst();
+                }
+
                 if (authorExists.isPresent()) {
                     book.addAuthor((Author) authorExists.get());
                     ((Author) authorExists.get()).addBook(book);
@@ -106,8 +114,13 @@ public class BookServiceImpl implements BookService {
 
         if (tags != null && user != null) {
             for (Tag tag : tags) {
-                Optional tagExists = user.getTags().stream().filter(x -> x.getTagName().equals(tag.getTagName()))
-                        .findFirst();
+                Optional tagExists = Optional.empty();
+
+                if (user.getTags() != null) {
+                    tagExists = user.getTags().stream().filter(x -> x.getTagName().equals(tag.getTagName()))
+                            .findFirst();
+                }
+
                 if (tagExists.isPresent()) {
                     book.addTag((Tag) tagExists.get());
                     ((Tag) tagExists.get()).addBook(book);
@@ -125,8 +138,13 @@ public class BookServiceImpl implements BookService {
         book.setPublisher(null);
 
         if (publisher != null && user != null) {
-            Optional publisherExists = user.getPublishers().stream()
-                    .filter(x -> x.getPublisherName().equals(publisher.getPublisherName())).findFirst();
+            Optional publisherExists = Optional.empty();
+
+            if (user.getPublishers() != null) {
+                publisherExists = user.getPublishers().stream()
+                        .filter(x -> x.getPublisherName().equals(publisher.getPublisherName())).findFirst();
+            }
+
             if (publisherExists.isPresent()) {
                 book.setPublisher((Publisher) publisherExists.get());
                 ((Publisher) publisherExists.get()).addBook(book);
@@ -143,8 +161,13 @@ public class BookServiceImpl implements BookService {
         book.setCategory(null);
 
         if (category != null && user != null) {
-            Optional categoryExists = user.getCategories().stream()
-                    .filter(x -> x.getCategoryName().equals(category.getCategoryName())).findFirst();
+            Optional categoryExists = Optional.empty();
+
+            if (user.getCategories() != null) {
+                categoryExists = user.getCategories().stream()
+                        .filter(x -> x.getCategoryName().equals(category.getCategoryName())).findFirst();
+            }
+
             if (categoryExists.isPresent()) {
                 book.setCategory((Category) categoryExists.get());
                 ((Category) categoryExists.get()).addBook(book);
@@ -161,8 +184,13 @@ public class BookServiceImpl implements BookService {
         book.setCollection(null);
 
         if (collection != null && user != null) {
-            Optional collectionExists = user.getCollections().stream()
-                    .filter(x -> x.getCollectionName().equals(collection.getCollectionName())).findFirst();
+            Optional collectionExists = Optional.empty();
+
+            if (user.getCollections() != null) {
+                collectionExists = user.getCollections().stream()
+                        .filter(x -> x.getCollectionName().equals(collection.getCollectionName())).findFirst();
+            }
+
             if (collectionExists.isPresent()) {
                 book.setCollection((Collection) collectionExists.get());
                 ((Collection) collectionExists.get()).addBook(book);
@@ -316,7 +344,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    private BookResponse createBookResponse(Book book) {
+    public BookResponse createBookResponse(Book book) {
 
         BookResponse bookResponse = new BookResponse();
         bookResponse.setCallNumber(book.getCallNumber());
@@ -328,56 +356,49 @@ public class BookServiceImpl implements BookService {
         bookResponse.setDescription(book.getDescription());
         bookResponse.setBookImageUrl(book.getBookImageUrl());
 
-        List<Author> authors = book.getAuthors();
-        for (Author author : authors) {
-            author.setBooks(null);
-            author.setUser(null);
-        }
-        bookResponse.setAuthors(authors);
+        if (book.getAuthors() != null) {
+            List<Author> authors = book.getAuthors().stream()
+                    .map(x -> new Author(x.getFirstName(), x.getMiddleName(), x.getLastName()))
+                    .collect(Collectors.toList());
 
-        List<Tag> tags = book.getTags();
-        if (tags != null) {
-            for (Tag tag : tags) {
-                tag.setBooks(null);
-                tag.setUser(null);
-            }
+            bookResponse.setAuthors(authors);
         }
-        bookResponse.setTags(tags);
 
-        List<CustomCollection> customCollections = book.getCustomCollections();
-        if (customCollections != null) {
-            for (CustomCollection customCollection : customCollections) {
-                customCollection.setBooks(null);
-                customCollection.setUser(null);
-            }
-        }
-        bookResponse.setCustomCollections(customCollections);
 
-        Publisher publisher = book.getPublisher();
-        if (publisher != null) {
-            publisher.setBooks(null);
-            publisher.setUser(null);
-        }
-        bookResponse.setPublisher(publisher);
+        if (book.getTags() != null) {
+            List<Tag> tags = book.getTags().stream().map(x -> new Tag(x.getTagName())).collect(Collectors.toList());
 
-        Category category = book.getCategory();
-        if (category != null) {
-            category.setBooks(null);
-            category.setUser(null);
+            bookResponse.setTags(tags);
         }
-        bookResponse.setCategory(category);
 
-        Collection collection = book.getCollection();
-        if (collection != null) {
-            collection.setBooks(null);
-            collection.setUser(null);
+        if (book.getCustomCollections() != null) {
+            List<CustomCollection> customCollections = book.getCustomCollections().stream()
+                    .map(x -> new CustomCollection(x.getCustomCollectionName())).collect(Collectors.toList());
+
+            bookResponse.setCustomCollections(customCollections);
         }
-        bookResponse.setCollection(collection);
+
+        if (book.getPublisher() != null) {
+            Publisher publisher = new Publisher(book.getPublisher().getPublisherName());
+            bookResponse.setPublisher(publisher);
+        }
+
+        if (book.getCategory() != null) {
+            Category category = new Category(book.getCategory().getCategoryName());
+            bookResponse.setCategory(category);
+        }
+
+
+        if (book.getCollection() != null) {
+            Collection collection = new Collection((book.getCollection().getCollectionName()));
+            bookResponse.setCollection(collection);
+        }
 
         return bookResponse;
     }
 
-    private boolean validateBookAndUsername(Book book, String callNumber, String username) throws UserNotFoundException {
+    @Transactional
+    public boolean validateBookAndUsername(Book book, String callNumber, String username) throws UserNotFoundException {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
@@ -392,7 +413,7 @@ public class BookServiceImpl implements BookService {
                 return true;
             }
         } else {
-            if (book != null && books != null) { //handles addNewBook()
+            if (book != null && books != null && books.size() > 0) { //handles addNewBook()
                 for (Book elem : books) {
                     if (elem.getCallNumber().equals(book.getCallNumber())) {
                         return true;

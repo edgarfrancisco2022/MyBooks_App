@@ -37,7 +37,7 @@ public class TestLogic {
         book.setCallNumber("001");
         book.setTitle("Book 1");
         book.setSubtitle("Book One");
-        book.setYear(1975);
+        book.setYear("1975");
         book.setNumberOfPages(340);
         book.setDescription("Add first book");
 

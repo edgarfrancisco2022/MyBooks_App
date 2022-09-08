@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +13,18 @@ public class Collection {
 
     //bidirectional
     //the value of mappedBy is the name of the association-mapping attribute on the owning side
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "collection")
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "collection")
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Collection() {
     }
 
-    public Collection(Long id, String collectionName, List<Book> books, User user) {
-        this.id = id;
+    public Collection(String collectionName) {
         this.collectionName = collectionName;
-        this.books = books;
-        this.user = user;
     }
 
     public Long getId() {

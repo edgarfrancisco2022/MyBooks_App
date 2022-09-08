@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +10,18 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoryName;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")  // bidirectional
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")  // bidirectional
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     List<Book> books;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Category() {
     }
 
-    public Category(Long id, String categoryName, List<Book> books, User user) {
-        this.id = id;
+    public Category(String categoryName) {
         this.categoryName = categoryName;
-        this.books = books;
-        this.user = user;
     }
 
     public Long getId() {

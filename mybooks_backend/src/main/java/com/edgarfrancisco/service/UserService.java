@@ -7,6 +7,9 @@ import com.edgarfrancisco.model.User;
 
 public interface UserService {
 
-    User register(String firstName, String lastName, String username, String email) throws UserNotFoundException, UsernameAlreadyExistsException, EmailAlreadyExistsException;
+    User register(String firstName, String lastName, String username, String email)
+            throws UserNotFoundException, UsernameAlreadyExistsException, EmailAlreadyExistsException;
+
+    public User findUserByUsername(String username);
 
 }

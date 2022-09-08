@@ -1,7 +1,6 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,24 +17,28 @@ public class Author {
     private String middleName;
     private String lastName;
 
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER) // refactor - FetchType.LAZY
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    private String fullName;
+
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY) // refactor - FetchType.LAZY
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books; // bidirectional
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Author() {
     }
 
-    public Author(Long id, String firstName, String middleName, String lastName,
-                  List<Book> books, User user) {
-        this.id = id;
+    public Author(String firstName, String middleName, String lastName) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.books = books;
-        this.user = user;
+
+        if (StringUtils.isNotEmpty(middleName)) {
+            this.fullName = firstName + " " + middleName + " " + lastName;
+        } else {
+            this.fullName = firstName + " " + lastName;
+        }
     }
 
     public Long getId() {
@@ -69,6 +72,9 @@ public class Author {
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
     public List<Book> getBooks() {
         return books;

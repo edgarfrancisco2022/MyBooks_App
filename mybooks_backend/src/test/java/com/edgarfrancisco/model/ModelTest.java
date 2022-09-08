@@ -177,7 +177,7 @@ public class ModelTest {
         Book book = new Book();
         book.setCallNumber("001");
         book.setTitle("Book 1");
-        book.setYear(1975);
+        book.setYear("1975");
         book.setDescription("Add first book");
 
         Author author = new Author();
@@ -222,7 +222,7 @@ public class ModelTest {
         Book book = new Book();
         book.setCallNumber("002");
         book.setTitle("Book 2");
-        book.setYear(1975);
+        book.setYear("1975");
         book.setDescription("Add second book");
 
         Author author = new Author();
@@ -267,7 +267,7 @@ public class ModelTest {
         Book book = new Book();
         book.setCallNumber("003");
         book.setTitle("Book 3");
-        book.setYear(1975);
+        book.setYear("1975");
         book.setDescription("Add third book");
 
         Author author = new Author();

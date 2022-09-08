@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,22 +11,19 @@ public class CustomCollection {
     private Long id;
     private String customCollectionName;
 
-    @ManyToMany(mappedBy = "customCollections", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @ManyToMany(mappedBy = "customCollections", fetch = FetchType.LAZY)
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books; // Unidirectional
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     public CustomCollection() {
     }
 
-    public CustomCollection(Long id, String customCollectionName, List<Book> books, User user) {
-        this.id = id;
+    public CustomCollection(String customCollectionName) {
         this.customCollectionName = customCollectionName;
-        this.books = books;
-        this.user = user;
     }
 
     public Long getId() {

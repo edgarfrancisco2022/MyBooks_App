@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +19,33 @@ public class Book {
     private String callNumber;
     private String title;
     private String subtitle;
-    private int year;
+    private String year;
     private int numberOfPages;
     private int numberOfCopies;
     private String description;
     private String bookImageUrl;
-    @ManyToMany(fetch = FetchType.EAGER) // refactor - FetchType.Lazy
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @ManyToMany(fetch = FetchType.LAZY) // refactor - FetchType.Lazy
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors; // bidirectional
-    @ManyToMany(fetch = FetchType.EAGER) // refactor FetchType.LAZY
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @ManyToMany(fetch = FetchType.LAZY) // refactor FetchType.LAZY
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     @JoinTable(name = "book_tag",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags; // bidirectional
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @ManyToMany(fetch = FetchType.LAZY)
+    //@Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "book_customcollection",
                joinColumns = @JoinColumn(name = "book_id"),
                inverseJoinColumns = @JoinColumn(name = "customcollection_id"))
     private List<CustomCollection> customCollections;
-    @ManyToOne(fetch = FetchType.EAGER) // bidirectional
+    @ManyToOne(fetch = FetchType.LAZY) // bidirectional
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     //@Column(nullable = false) - @Column not allowed
     private Category category; // bidirectional
@@ -56,10 +53,10 @@ public class Book {
     //In a One-to-Many/Many-to-One relationship, the owning side is usually defined
     //on the ‘many' side of the relationship. It's usually the side which owns the foreign key.
     //The @JoinColumn annotation defines that actual physical mapping on the owning side:
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id") //foreign-key
     private Collection collection; // si es parte de una colección
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     //@Column(nullable = false) //@Column not allowed
     private User user;  // bidirectional
@@ -67,7 +64,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String callNumber, String title, String subtitle, int year,
+    public Book(String callNumber, String title, String subtitle, String year,
                 int numberOfPages, int numberOfCopies, String description,
                 String bookImageUrl, List<Author> authors, List<Tag> tags,
                 Publisher publisher, Category category, Collection collection) {
@@ -119,10 +116,10 @@ public class Book {
         this.subtitle = subtitle;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

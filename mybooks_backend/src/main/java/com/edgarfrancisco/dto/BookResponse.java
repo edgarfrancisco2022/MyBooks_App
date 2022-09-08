@@ -1,6 +1,7 @@
 package com.edgarfrancisco.dto;
 
 import com.edgarfrancisco.model.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public class BookResponse {
     private String callNumber;
     private String title;
     private String subtitle;
-    private int year;
+    private String year;
     private int numberOfPages;
     private int numberOfCopies;
     private String description;
@@ -16,14 +17,17 @@ public class BookResponse {
     private List<Author> authors;
     private List<Tag> tags;
     private List<CustomCollection> customCollections;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) //solves error due to lazy loading
     private Publisher publisher;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Category category;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Collection collection;
 
     public BookResponse() {
     }
 
-    public BookResponse(String callNumber, String title, String subtitle, int year, int numberOfPages,
+    public BookResponse(String callNumber, String title, String subtitle, String year, int numberOfPages,
                         int numberOfCopies, String description, String bookImageUrl, List<Author> authors,
                         List<Tag> tags, List<CustomCollection> customCollections, Publisher publisher,
                         Category category, Collection collection) {
@@ -67,11 +71,11 @@ public class BookResponse {
         this.subtitle = subtitle;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

@@ -1,7 +1,6 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class User {
     private String username;
     private String email;
     private String profileImageUrl;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private Date lastLoginDate;
     private Date displayLastLogin;
@@ -28,59 +28,36 @@ public class User {
     private boolean isActive;
     private boolean isLocked;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     List<Book> books;  // bidirectional
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<Author> authors;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<Tag> tags;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<CustomCollection> customCollections;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<Publisher> publishers;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<Category> categories;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    //@Fetch(value = FetchMode.SUBSELECT)
     List<Collection> collections;
 
     public User() {
     }
 
-    public User(Long id, String userId, String firstName, String lastName, String username,
-                String email, String profileImageUrl, String password, Date lastLoginDate,
-                Date displayLastLogin, Date joinDate, String role, String[] authorities,
-                boolean isActive, boolean isLocked, List<Book> books, List<Author> authors,
-                List<Tag> tags, List<CustomCollection> customCollections, List<Publisher> publishers,
-                List<Category> categories, List<Collection> collections) {
-        this.id = id;
-        this.userId = userId;
+    public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.profileImageUrl = profileImageUrl;
-        this.password = password;
-        this.lastLoginDate = lastLoginDate;
-        this.displayLastLogin = displayLastLogin;
-        this.joinDate = joinDate;
-        this.role = role;
-        Authorities = authorities;
-        this.isActive = isActive;
-        this.isLocked = isLocked;
-        this.books = books;
-        this.authors = authors;
-        this.tags = tags;
-        this.customCollections = customCollections;
-        this.publishers = publishers;
-        this.categories = categories;
-        this.collections = collections;
     }
 
     public Long getId() {

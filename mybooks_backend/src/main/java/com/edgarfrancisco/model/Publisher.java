@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +11,18 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String publisherName;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "publisher")
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "publisher")
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Publisher() {
     }
 
-    public Publisher(Long id, String publisherName, List<Book> books, User user) {
-        this.id = id;
+    public Publisher(String publisherName) {
         this.publisherName = publisherName;
-        this.books = books;
-        this.user = user;
     }
 
     public Long getId() {

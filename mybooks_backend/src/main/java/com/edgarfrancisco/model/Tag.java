@@ -1,8 +1,5 @@
 package com.edgarfrancisco.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,22 +11,19 @@ public class Tag {
     private Long id;
     private String tagName;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books; // bidirectional
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Tag() {
     }
 
-    public Tag(Long id, String tagName, List<Book> books, User user) {
-        this.id = id;
+    public Tag(String tagName) {
         this.tagName = tagName;
-        this.books = books;
-        this.user = user;
     }
 
     public Long getId() {
