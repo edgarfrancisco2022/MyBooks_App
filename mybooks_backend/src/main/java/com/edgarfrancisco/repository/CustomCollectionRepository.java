@@ -15,4 +15,6 @@ public interface CustomCollectionRepository extends JpaRepository<CustomCollecti
     @Query(value = "SELECT * FROM custom_collection WHERE custom_collection_name = :listname " +
             "AND user_id = :user_id", nativeQuery = true)
     CustomCollection searchByCustomCollectionNameAndUserId(String listname, Long user_id);
+
+
 }

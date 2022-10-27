@@ -3,9 +3,12 @@ package com.edgarfrancisco.dto;
 import com.edgarfrancisco.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
 import java.util.List;
 
 public class BookResponse {
+
+    private Date dateAdded;
     private String callNumber;
     private String title;
     private String subtitle;
@@ -27,10 +30,11 @@ public class BookResponse {
     public BookResponse() {
     }
 
-    public BookResponse(String callNumber, String title, String subtitle, String year, int numberOfPages,
+    public BookResponse(Date dateAdded, String callNumber, String title, String subtitle, String year, int numberOfPages,
                         int numberOfCopies, String description, String bookImageUrl, List<Author> authors,
                         List<Tag> tags, List<CustomCollection> customCollections, Publisher publisher,
                         Category category, Collection collection) {
+        this.dateAdded = dateAdded;
         this.callNumber = callNumber;
         this.title = title;
         this.subtitle = subtitle;
@@ -46,6 +50,10 @@ public class BookResponse {
         this.category = category;
         this.collection = collection;
     }
+
+    public Date getDateAdded() { return dateAdded; }
+
+    public void setDateAdded(Date dateAdded) { this.dateAdded = dateAdded; }
 
     public String getCallNumber() {
         return callNumber;

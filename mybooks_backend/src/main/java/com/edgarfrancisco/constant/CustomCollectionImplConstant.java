@@ -7,6 +7,7 @@ public class CustomCollectionImplConstant {
     public static final String BOOK_ALREADY_EXISTS_IN_LIST = "Book already exists in list: ";
     public static final String BOOK_DOES_NOT_EXIST_IN_LIST = "Book does not exist in list: ";
     public static final String BOOK_ADDED_TO_LIST = "Book with callnumber %s succesfully added to list: %s.";
-
     public static final String BOOK_REMOVED_FROM_LIST = "Book with callnumber %s succesfully removed from list: %s.";
+
+    public static final String LIST_REMOVED_FROM_DATABASE = "List %s succesfully removed from database.";
 }

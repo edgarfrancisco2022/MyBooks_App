@@ -1,6 +1,7 @@
 package com.edgarfrancisco.controller;
 
 import com.edgarfrancisco.dto.BookResponse;
+import com.edgarfrancisco.exception.ExceptionHandling;
 import com.edgarfrancisco.exception.domain.BlankSearchQueryException;
 import com.edgarfrancisco.exception.domain.UserNotFoundException;
 import com.edgarfrancisco.service.SearchService;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/search")
-public class SearchController {
+public class SearchController extends ExceptionHandling {
 
     @Autowired
     SearchService searchService;

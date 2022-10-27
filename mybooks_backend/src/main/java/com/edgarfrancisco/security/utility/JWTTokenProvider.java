@@ -44,7 +44,8 @@ public class JWTTokenProvider {
         return JWT.create()
                 .withIssuer(EDGAR_FRANCISCO)
                 .withAudience(MY_BOOKS_BACKEND)
-                .withIssuedAt(new Date()).withSubject(userPrincipal.getUsername())
+                .withIssuedAt(new Date())
+                .withSubject(userPrincipal.getUsername())
                 .withArrayClaim(AUTHORITIES, claims)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(secret.getBytes()));

@@ -5,11 +5,11 @@ import com.edgarfrancisco.exception.domain.BookAlreadyExistsException;
 import com.edgarfrancisco.exception.domain.BookNotFoundException;
 import com.edgarfrancisco.exception.domain.UserNotFoundException;
 import com.edgarfrancisco.model.Book;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 public interface BookService {
-    List<BookResponse> getBooks(String username) throws UserNotFoundException;
+    Page<Book> getBooks(String username, PageRequest pageRequest) throws UserNotFoundException;
     BookResponse addNewBook(Book book, String username) throws BookAlreadyExistsException,
                                                                UserNotFoundException;
     BookResponse updateBook(Book book, String username) throws UserNotFoundException,

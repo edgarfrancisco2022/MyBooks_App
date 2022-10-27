@@ -1,5 +1,7 @@
 package com.edgarfrancisco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    @JsonBackReference
     public List<Book> getBooks() {
         return books;
     }
@@ -59,6 +62,7 @@ public class Category {
         this.books.remove(book);
     }
 
+    @JsonBackReference
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

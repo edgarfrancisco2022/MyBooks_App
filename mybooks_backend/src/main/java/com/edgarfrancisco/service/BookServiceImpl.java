@@ -8,10 +8,13 @@ import com.edgarfrancisco.model.*;
 import com.edgarfrancisco.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,21 +43,35 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<BookResponse> getBooks(String username) throws UserNotFoundException {
+    public Page<Book> getBooks(String username, PageRequest pageRequest) throws UserNotFoundException {
 
         validateBookAndUsername(null, StringUtils.EMPTY, username);
 
         User user = userRepository.findByUsername(username);
-        List<Book> books = user.getBooks();
 
-        if (books == null) {
-            books = new ArrayList<>();
-        }
+//        List<Book> books = user.getBooks();
+        Page<Book> books = bookRepository.getAllBooks(user.getId(), pageRequest);
+        System.out.println(user.getId());
 
-        List<BookResponse> listOfBooks = books.stream().map(x -> createBookResponse(x))
-                .collect(Collectors.toList());
 
-        return listOfBooks;
+        //books.getContent().stream().map(x -> createBookForPagination(x)).collect(Collectors.toList());
+
+//        Page<BookResponse> returnThis = new PageImpl<>(bookResponse, books.getPageable(), bookResponse.size());
+
+        return books;
+
+//        if (books == null) {
+//            books = new ArrayList<>();
+//        }
+//
+//        Comparator<Book> sortBooks = (b1, b2) -> b1.getTitle().compareTo(b2.getTitle());
+//
+//        Collections.sort(books, sortBooks);
+//
+//        List<BookResponse> listOfBooks = books.stream().map(x -> createBookResponse(x))
+//                .collect(Collectors.toList());
+//
+//        return listOfBooks;
     }
 
     public BookResponse addNewBook(Book book, String username) throws UserNotFoundException, BookAlreadyExistsException {
@@ -85,13 +102,16 @@ public class BookServiceImpl implements BookService {
 
         User user = userRepository.findByUsername(username);
 
-        List<Author> authors = book.getAuthors();
+        book.setDateAdded(new Date());
+
+        List<Author> authors = book.getAuthors();  //auto complete // usando el id//
         book.setAuthors(null);
 
         if (authors != null && user != null && authors.size() > 0) {
             for (Author author : authors) {
                 Optional authorExists = Optional.empty();
 
+                // author repository
                 if (user.getAuthors() != null) {
                     authorExists = user.getAuthors().stream().filter(x -> x.equals(author)).findFirst();
                 }
@@ -103,7 +123,7 @@ public class BookServiceImpl implements BookService {
                 } else {
                     author.setUser(user);
                     book.addAuthor(author);
-                    author.addBook(book);
+                    author.addBook(book); //probar
                     authorRepository.save(author);
                 }
             }
@@ -181,6 +201,7 @@ public class BookServiceImpl implements BookService {
         }
 
         Collection collection = book.getCollection();
+//        System.out.println(collection == null);
         book.setCollection(null);
 
         if (collection != null && user != null) {
@@ -227,6 +248,7 @@ public class BookServiceImpl implements BookService {
             }
         }
 
+        // no necesariamente borrar autor // probar cascade delete en el libro
         List<Author> authors = new ArrayList<>();
 
         if (book.getAuthors() != null) {
@@ -347,6 +369,7 @@ public class BookServiceImpl implements BookService {
     public BookResponse createBookResponse(Book book) {
 
         BookResponse bookResponse = new BookResponse();
+        bookResponse.setDateAdded(book.getDateAdded());
         bookResponse.setCallNumber(book.getCallNumber());
         bookResponse.setTitle(book.getTitle());
         bookResponse.setSubtitle(book.getSubtitle());
@@ -427,4 +450,63 @@ public class BookServiceImpl implements BookService {
         }
         return false;
     }
+
+
+    // Ideally this method would replace createBookResponse(Book book)
+    // It is only being used to implement pagination
+    // No need to have a BookResponse object
+    // Need to refactor
+//    public Book createBookForPagination(Book book) {
+//
+//        Book bookResponse = new Book();
+//        bookResponse.setDateAdded(book.getDateAdded());
+//        bookResponse.setCallNumber(book.getCallNumber());
+//        bookResponse.setTitle(book.getTitle());
+//        bookResponse.setSubtitle(book.getSubtitle());
+//        bookResponse.setYear(book.getYear());
+//        bookResponse.setNumberOfPages(book.getNumberOfPages());
+//        bookResponse.setNumberOfCopies(book.getNumberOfCopies());
+//        bookResponse.setDescription(book.getDescription());
+//        bookResponse.setBookImageUrl(book.getBookImageUrl());
+//
+//        if (book.getAuthors() != null) {
+//            List<Author> authors = book.getAuthors().stream()
+//                    .map(x -> new Author(x.getFirstName(), x.getMiddleName(), x.getLastName()))
+//                    .collect(Collectors.toList());
+//
+//            bookResponse.setAuthors(authors);
+//        }
+//
+//
+//        if (book.getTags() != null) {
+//            List<Tag> tags = book.getTags().stream().map(x -> new Tag(x.getTagName())).collect(Collectors.toList());
+//
+//            bookResponse.setTags(tags);
+//        }
+//
+//        if (book.getCustomCollections() != null) {
+//            List<CustomCollection> customCollections = book.getCustomCollections().stream()
+//                    .map(x -> new CustomCollection(x.getCustomCollectionName())).collect(Collectors.toList());
+//
+//            bookResponse.setCustomCollections(customCollections);
+//        }
+//
+//        if (book.getPublisher() != null) {
+//            Publisher publisher = new Publisher(book.getPublisher().getPublisherName());
+//            bookResponse.setPublisher(publisher);
+//        }
+//
+//        if (book.getCategory() != null) {
+//            Category category = new Category(book.getCategory().getCategoryName());
+//            bookResponse.setCategory(category);
+//        }
+//
+//
+//        if (book.getCollection() != null) {
+//            Collection collection = new Collection((book.getCollection().getCollectionName()));
+//            bookResponse.setCollection(collection);
+//        }
+//
+//        return bookResponse;
+//    }
 }

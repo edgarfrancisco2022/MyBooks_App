@@ -1,5 +1,6 @@
 package com.edgarfrancisco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -16,9 +17,7 @@ public class Author {
     private String firstName;
     private String middleName;
     private String lastName;
-
     private String fullName;
-
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY) // refactor - FetchType.LAZY
     //@Fetch(value = FetchMode.SUBSELECT) // hibernate does not like two collections with FetchType.EAGER // this fixes the problem but must refactor with FetchType.Lazy
     private List<Book> books; // bidirectional
@@ -76,6 +75,7 @@ public class Author {
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
+    @JsonBackReference
     public List<Book> getBooks() {
         return books;
     }
@@ -96,6 +96,7 @@ public class Author {
         book.getAuthors().remove(this);
     }
 
+    @JsonBackReference
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

@@ -9,11 +9,11 @@ import com.edgarfrancisco.exception.domain.UserNotFoundException;
 import com.edgarfrancisco.model.Book;
 import com.edgarfrancisco.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -25,11 +25,12 @@ public class BookController extends ExceptionHandling {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/get/{username}")
-    public ResponseEntity<List<BookResponse>> getBooks(@PathVariable("username") String username)
+    @GetMapping("/get/{username}") //jwt
+    public ResponseEntity<Page<Book>> getBooks(@PathVariable("username") String username)
             throws UserNotFoundException {
 
-        List<BookResponse> books = bookService.getBooks(username);
+        PageRequest pageRequest = PageRequest.of(0, 5);
+        Page<Book> books = bookService.getBooks(username, pageRequest);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 

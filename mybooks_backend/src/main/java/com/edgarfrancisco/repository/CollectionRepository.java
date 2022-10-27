@@ -1,6 +1,5 @@
 package com.edgarfrancisco.repository;
 
-import com.edgarfrancisco.model.Category;
 import com.edgarfrancisco.model.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +12,5 @@ public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
     @Query(value = "SELECT * FROM collection WHERE collection_name LIKE CONCAT('%', :searchQuery, '%') " +
             "AND user_id = :user_id", nativeQuery = true)
-    List<Category> searchByCollection(String searchQuery, Long user_id);
+    List<Collection> searchByCollection(String searchQuery, Long user_id);
 }

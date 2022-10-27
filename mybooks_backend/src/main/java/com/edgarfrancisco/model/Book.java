@@ -2,20 +2,17 @@ package com.edgarfrancisco.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Book {
 
-    /*
-        NotNull - callNumber, title, authors, category, user
-        Unique
-     */
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
+    private Date dateAdded;
     private String callNumber;
     private String title;
     private String subtitle;
@@ -64,10 +61,11 @@ public class Book {
     public Book() {
     }
 
-    public Book(String callNumber, String title, String subtitle, String year,
+    public Book(Date dateAdded, String callNumber, String title, String subtitle, String year,
                 int numberOfPages, int numberOfCopies, String description,
                 String bookImageUrl, List<Author> authors, List<Tag> tags,
                 Publisher publisher, Category category, Collection collection) {
+        this.dateAdded = dateAdded;
         this.callNumber = callNumber;
         this.title = title;
         this.subtitle = subtitle;
@@ -94,6 +92,10 @@ public class Book {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Date getDateAdded() { return dateAdded; }
+
+    public void setDateAdded(Date dateAdded) { this.dateAdded = dateAdded; }
 
     public String getCallNumber() {
         return callNumber;
@@ -155,6 +157,7 @@ public class Book {
     /********** Fields with ManyToMany associations *********/
     /********************************************************/
 
+    //@JsonBackReference
     public List<Author> getAuthors() {
         return authors;
     }
@@ -175,7 +178,6 @@ public class Book {
         author.getBooks().remove(this);
     }
 
-
     public List<Tag> getTags() {
         return tags;
     }
@@ -195,7 +197,6 @@ public class Book {
         this.tags.remove(tag);
         tag.getBooks().remove(this);
     }
-
 
     public List<CustomCollection> getCustomCollections() {
         return customCollections;
@@ -220,7 +221,6 @@ public class Book {
     /********************************************************/
     /********** Fields ManyToOne Associations ***************/
     /********************************************************/
-
     public Publisher getPublisher() {
         return publisher;
     }
@@ -234,6 +234,7 @@ public class Book {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 
     public Collection getCollection() {
         return collection;

@@ -52,6 +52,7 @@ public class SearchServiceImpl implements SearchService {
 
         User user = userRepository.findByUsername(username);
 
+        // query dinamico
         switch(searchField) {
             case "callnumber":
                 bookRepository.searchByCallnumber(searchQuery, user.getId()).forEach(book -> books.add(book));
@@ -74,18 +75,19 @@ public class SearchServiceImpl implements SearchService {
                 break;
             case "custom_collection":
                 customCollectionRepository.searchByCustomCollection(searchQuery, user.getId())
-                        .forEach(tag -> books.addAll(tag.getBooks()));
+                        .forEach(custom -> books.addAll(custom.getBooks()));
                 break;
             case "publisher":
                 publisherRepository.searchByPublisher(searchQuery, user.getId())
                         .forEach(pub -> books.addAll(pub.getBooks()));
                 break;
             case "category":
-                categoryRepository.searchByCategory(searchField, user.getId())
+                categoryRepository.searchByCategory(searchQuery, user.getId())
                         .forEach(cat -> books.addAll(cat.getBooks()));
                 break;
             case "collection":
-                collectionRepository.searchByCollection(searchField, user.getId());
+                collectionRepository.searchByCollection(searchQuery, user.getId())
+                        .forEach(col -> books.addAll(col.getBooks()));
                 break;
             default:
                 break;

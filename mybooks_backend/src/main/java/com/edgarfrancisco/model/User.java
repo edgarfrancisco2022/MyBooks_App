@@ -1,5 +1,6 @@
 package com.edgarfrancisco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -176,7 +177,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Book> getBooks() {
         return books;
     }
@@ -197,7 +198,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Author> getAuthors() { return authors; }
 
     public void setAuthors(List<Author> authors) { this.authors = authors; }
@@ -214,7 +215,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Tag> getTags() { return tags; }
 
     public void setTags(List<Tag> tags) { this.tags = tags; }
@@ -231,7 +232,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<CustomCollection> getCustomCollections() {
         return customCollections;
     }
@@ -251,7 +252,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Publisher> getPublishers() { return publishers; }
 
     public void setPublishers(List<Publisher> publishers) { this.publishers = publishers; }
@@ -268,7 +269,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Category> getCategories() { return categories; }
 
     public void setCategories(List<Category> categories) { this.categories = categories; }
@@ -285,7 +286,7 @@ public class User {
     }
 
 
-
+    @JsonBackReference
     public List<Collection> getCollections() {
         return collections;
     }
