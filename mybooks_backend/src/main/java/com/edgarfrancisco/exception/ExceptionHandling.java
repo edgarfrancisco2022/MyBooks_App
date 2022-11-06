@@ -49,19 +49,19 @@ public class ExceptionHandling implements ErrorController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpResponse> internalServerErrorException(Exception exception) {
-        LOGGER.error(exception.getMessage());
+        LOGGER.error(exception.getMessage(), exception);
         return createHttpResponse(INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR_MSG);
     }
 
     @ExceptionHandler(NoResultException.class)
     public ResponseEntity<HttpResponse> notFoundException(NoResultException exception) {
-        LOGGER.error(exception.getMessage());
+        LOGGER.error(exception.getMessage(), exception);
         return createHttpResponse(NOT_FOUND, exception.getMessage());
     }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<HttpResponse> iOException(IOException exception) {
-        LOGGER.error(exception.getMessage());
+        LOGGER.error(exception.getMessage(), exception);
         return createHttpResponse(INTERNAL_SERVER_ERROR, ERROR_PROCESSING_FILE);
     }
 

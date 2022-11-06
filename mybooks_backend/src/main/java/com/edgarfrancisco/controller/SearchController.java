@@ -19,13 +19,23 @@ public class SearchController extends ExceptionHandling {
     @Autowired
     SearchService searchService;
 
-    @GetMapping("/field/{username}")
+//    @GetMapping("/field/{username}")
+//    public ResponseEntity<List<BookResponse>> searchByField(@RequestHeader("Search-Field") String searchField,
+//                                                            @RequestHeader("Search-Query") String searchQuery,
+//                                                            @PathVariable("username") String username)
+//            throws UserNotFoundException, BlankSearchQueryException {
+//
+//        List<BookResponse> books = searchService.searchByField(searchField, searchQuery, username);
+//        return new ResponseEntity<>(books, HttpStatus.OK);
+//    }
+
+    @GetMapping("/field")
     public ResponseEntity<List<BookResponse>> searchByField(@RequestHeader("Search-Field") String searchField,
                                                             @RequestHeader("Search-Query") String searchQuery,
-                                                            @PathVariable("username") String username)
+                                                            @RequestHeader("Authorization") String authorization)
             throws UserNotFoundException, BlankSearchQueryException {
 
-        List<BookResponse> books = searchService.searchByField(searchField, searchQuery, username);
+        List<BookResponse> books = searchService.searchByField(searchField, searchQuery, authorization);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

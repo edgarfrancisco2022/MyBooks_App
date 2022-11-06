@@ -75,7 +75,7 @@ public class Author {
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
-    @JsonBackReference
+    @JsonBackReference(value = "author-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -96,7 +96,7 @@ public class Author {
         book.getAuthors().remove(this);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "author-user")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

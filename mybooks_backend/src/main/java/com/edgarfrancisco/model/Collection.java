@@ -45,7 +45,7 @@ public class Collection {
         this.collectionName = collectionName;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "collection-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -65,7 +65,7 @@ public class Collection {
         this.books.remove(book);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "collection-user")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

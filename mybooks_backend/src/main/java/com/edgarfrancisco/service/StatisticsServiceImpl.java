@@ -23,9 +23,11 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Autowired
     BookRepository bookRepository;
 
-    public StatisticsResponse getStatistics(String username) throws UserNotFoundException {
+    public StatisticsResponse getStatistics(String authorization) throws UserNotFoundException {
 
-        bookService.validateBookAndUsername(null, null, username);
+        bookService.validateBookAndUsername(null, null, authorization);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 

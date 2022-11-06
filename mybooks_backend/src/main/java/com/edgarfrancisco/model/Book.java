@@ -1,5 +1,7 @@
 package com.edgarfrancisco.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -243,6 +245,7 @@ public class Book {
         this.collection = collectionName;
     }
 
+    @JsonBackReference(value = "book-user")
     public User getUser() {
         return user;
     }

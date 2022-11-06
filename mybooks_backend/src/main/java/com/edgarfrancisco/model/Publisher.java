@@ -43,7 +43,7 @@ public class Publisher {
         this.publisherName = name;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "publisher-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -63,7 +63,7 @@ public class Publisher {
         this.books.remove(book);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "publisher-user")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

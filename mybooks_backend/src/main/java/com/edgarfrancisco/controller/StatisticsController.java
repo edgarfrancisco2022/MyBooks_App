@@ -7,10 +7,7 @@ import com.edgarfrancisco.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/statistics")
@@ -18,11 +15,11 @@ public class StatisticsController extends ExceptionHandling {
     @Autowired
     StatisticsService statisticsService;
 
-    @GetMapping("/get/{username}") //jwt
-    public ResponseEntity<StatisticsResponse> getStatistics(@PathVariable("username") String username)
+    @GetMapping("/get") //jwt
+    public ResponseEntity<StatisticsResponse> getStatistics(@RequestHeader("Authorization") String authorization)
             throws UserNotFoundException {
 
-        StatisticsResponse stats = statisticsService.getStatistics(username);
+        StatisticsResponse stats = statisticsService.getStatistics(authorization);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 

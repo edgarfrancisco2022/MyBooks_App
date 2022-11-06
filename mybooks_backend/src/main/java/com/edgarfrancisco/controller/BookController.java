@@ -25,39 +25,89 @@ public class BookController extends ExceptionHandling {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/get/{username}") //jwt
-    public ResponseEntity<Page<Book>> getBooks(@PathVariable("username") String username)
+//    @GetMapping("/get/{username}/{page}/{size}") //jwt
+//    public ResponseEntity<Page<Book>> getBooks(@PathVariable("username") String username,
+//                                               @PathVariable("page") int page,
+//                                               @PathVariable("size") int size)
+//            throws UserNotFoundException {
+//
+//        PageRequest pageRequest = PageRequest.of(page, size);
+//        Page<Book> books = bookService.getBooks(username, pageRequest);
+//        return new ResponseEntity<>(books, HttpStatus.OK);
+//    }
+
+    @GetMapping("/get/{page}/{size}") //jwt
+    public ResponseEntity<Page<Book>> getBooks(@RequestHeader("Authorization") String authorization,
+                                               @PathVariable("page") int page,
+                                               @PathVariable("size") int size)
             throws UserNotFoundException {
 
-        PageRequest pageRequest = PageRequest.of(0, 5);
-        Page<Book> books = bookService.getBooks(username, pageRequest);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Book> books = bookService.getBooks(authorization, pageRequest);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @PostMapping("/add/{username}")
+//    @PostMapping("/add/{username}")
+//    public ResponseEntity<BookResponse> addNewBook(@RequestBody Book book,
+//                                                   @PathVariable("username") String username)
+//            throws BookAlreadyExistsException, UserNotFoundException {
+//
+//        BookResponse bookResponse = bookService.addNewBook(book, username);
+//        return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+//    }
+
+    @PostMapping("/add")
     public ResponseEntity<BookResponse> addNewBook(@RequestBody Book book,
-                                                   @PathVariable("username") String username)
+                                                   @RequestHeader("Authorization") String authorization)
             throws BookAlreadyExistsException, UserNotFoundException {
 
-        BookResponse bookResponse = bookService.addNewBook(book, username);
+        BookResponse bookResponse = bookService.addNewBook(book, authorization);
         return new ResponseEntity<>(bookResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/update/{username}")
+//    @PostMapping("/update/{username}")
+//    public ResponseEntity<BookResponse> updateBook(@RequestBody Book book,
+//                                                   @PathVariable("username") String username)
+//            throws UserNotFoundException, BookNotFoundException {
+//
+//        BookResponse bookResponse = bookService.updateBook(book, username);
+//        return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+//    }
+
+    @PostMapping("/update")
     public ResponseEntity<BookResponse> updateBook(@RequestBody Book book,
-                                                   @PathVariable("username") String username)
+                                                   @RequestHeader("Authorization") String authorization)
             throws UserNotFoundException, BookNotFoundException {
 
-        BookResponse bookResponse = bookService.updateBook(book, username);
+        BookResponse bookResponse = bookService.updateBook(book, authorization);
         return new ResponseEntity<>(bookResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{username}/{callnumber}")
-    public ResponseEntity<HttpResponse> deleteBook(@PathVariable("username") String username,
+//    @PostMapping("/update")
+//    public ResponseEntity<BookResponse> updateBook(@RequestBody Book book,
+//                                                   @RequestHeader("Authorization") String authorization)
+//            throws UserNotFoundException, BookNotFoundException, BookAlreadyExistsException, InterruptedException {
+//
+//        bookService.deleteBook(authorization, book.getCallNumber());
+//        BookResponse bookResponse = bookService.addNewBook(book, authorization);
+//        return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+//    }
+
+//    @DeleteMapping("/delete/{username}/{callnumber}")
+//    public ResponseEntity<HttpResponse> deleteBook(@PathVariable("username") String username,
+//                                                   @PathVariable("callnumber") String callNumber)
+//            throws UserNotFoundException, BookNotFoundException {
+//
+//        bookService.deleteBook(username, callNumber);
+//        return createHttpResponse(HttpStatus.OK, BOOK_DELETED_SUCCESSFULLY);
+//    }
+
+    @DeleteMapping("/delete/{callnumber}")
+    public ResponseEntity<HttpResponse> deleteBook(@RequestHeader("Authorization") String authorization,
                                                    @PathVariable("callnumber") String callNumber)
             throws UserNotFoundException, BookNotFoundException {
 
-        bookService.deleteBook(username, callNumber);
+        bookService.deleteBook(authorization, callNumber);
         return createHttpResponse(HttpStatus.OK, BOOK_DELETED_SUCCESSFULLY);
     }
 

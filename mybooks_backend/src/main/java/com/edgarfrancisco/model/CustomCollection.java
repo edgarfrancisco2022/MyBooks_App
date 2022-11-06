@@ -44,7 +44,7 @@ public class CustomCollection {
         this.customCollectionName = customCollectionName;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "custom-collection-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -65,7 +65,7 @@ public class CustomCollection {
         book.getAuthors().remove(this);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "custom-collection-user")
     public User getUser() {
         return user;
     }

@@ -44,11 +44,13 @@ public class SearchServiceImpl implements SearchService {
 
     private static final List<Book> books = new ArrayList<>();
 
-    public List<BookResponse> searchByField(String searchField, String searchQuery, String username)
+    public List<BookResponse> searchByField(String searchField, String searchQuery, String authorization)
             throws UserNotFoundException, BlankSearchQueryException {
 
-        bookService.validateBookAndUsername(null, StringUtils.EMPTY, username);
+        bookService.validateBookAndUsername(null, StringUtils.EMPTY, authorization);
         validateSearchQuery(searchQuery);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 
@@ -107,8 +109,12 @@ public class SearchServiceImpl implements SearchService {
 
 
     private void validateSearchQuery(String searchQuery) throws BlankSearchQueryException {
-        boolean isNotBlank = StringUtils.isNotBlank(searchQuery);
-        if (!isNotBlank) {
+//        boolean isNotBlank = StringUtils.isNotBlank(searchQuery);
+//        if (!isNotBlank) {
+//            throw new BlankSearchQueryException(SEARCH_QUERY_IS_BLANK);
+//        }
+        boolean isNotNull = searchQuery != null;
+        if (!isNotNull) {
             throw new BlankSearchQueryException(SEARCH_QUERY_IS_BLANK);
         }
     }

@@ -29,10 +29,12 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
     @Autowired
     UserRepository userRepository;
 
-    public List<CustomCollection> searchBySearchQuery(String searchQuery, String username)
+    public List<CustomCollection> searchBySearchQuery(String searchQuery, String authorization)
             throws UserNotFoundException, BlankSearchQueryException {
 
-        bookService.validateBookAndUsername(null, StringUtils.EMPTY, username);
+        bookService.validateBookAndUsername(null, StringUtils.EMPTY, authorization);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 
@@ -64,9 +66,11 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
         return lists;
     }
 
-    public List<CustomCollectionResponse> getLists(String username) throws UserNotFoundException {
+    public List<CustomCollectionResponse> getLists(String authorization) throws UserNotFoundException {
 
-        bookService.validateBookAndUsername(null, null, username);
+        bookService.validateBookAndUsername(null, null, authorization);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
         List<CustomCollection> lists = user.getCustomCollections();
@@ -103,8 +107,10 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
         return listDTO;
     }
 
-    public String addNewList(String listname, String username) throws UserNotFoundException, ListAlreadyExistsException {
-        bookService.validateBookAndUsername(null, null, username);
+    public String addNewList(String listname, String authorization) throws UserNotFoundException, ListAlreadyExistsException {
+        bookService.validateBookAndUsername(null, null, authorization);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 
@@ -123,10 +129,12 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
         return newList.getCustomCollectionName();
     }
 
-    public String deleteList(String listname, String username)
+    public String deleteList(String listname, String authorization)
             throws UserNotFoundException, ListNotFoundException {
 
-        bookService.validateBookAndUsername(null, null, username);
+        bookService.validateBookAndUsername(null, null, authorization);
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 
@@ -160,15 +168,17 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
         return String.format(LIST_REMOVED_FROM_DATABASE, listname);
     }
 
-    public String addBookToList(String listname, String callnumber, String username)
+    public String addBookToList(String listname, String callnumber, String authorization)
             throws UserNotFoundException, BookNotFoundException, ListNotFoundException,
                    BookAlreadyExistsException {
 
-        boolean bookExists = bookService.validateBookAndUsername(null, callnumber, username);
+        boolean bookExists = bookService.validateBookAndUsername(null, callnumber, authorization);
 
         if (!bookExists) {
             throw new BookNotFoundException(NO_BOOK_FOUND_WITH_CALLNUMBER + callnumber);
         }
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 
@@ -198,14 +208,16 @@ public class CustomCollectionServiceImpl implements CustomCollectionService {
         return String.format(BOOK_ADDED_TO_LIST, callnumber, listname);
     }
 
-    public String deleteBookFromList(String listname, String callnumber, String username)
+    public String deleteBookFromList(String listname, String callnumber, String authorization)
             throws UserNotFoundException, BookNotFoundException, ListNotFoundException {
 
-        boolean bookExists = bookService.validateBookAndUsername(null, callnumber, username);
+        boolean bookExists = bookService.validateBookAndUsername(null, callnumber, authorization);
 
         if (!bookExists) {
             throw new BookNotFoundException(NO_BOOK_FOUND_WITH_CALLNUMBER + callnumber);
         }
+
+        String username = bookService.getUserName(authorization);
 
         User user = userRepository.findByUsername(username);
 

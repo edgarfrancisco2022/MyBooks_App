@@ -42,7 +42,7 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "category-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -62,7 +62,7 @@ public class Category {
         this.books.remove(book);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "category-user")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }

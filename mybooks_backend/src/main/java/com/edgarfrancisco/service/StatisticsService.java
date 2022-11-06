@@ -5,5 +5,5 @@ import com.edgarfrancisco.exception.domain.UserNotFoundException;
 
 public interface StatisticsService {
 
-    public StatisticsResponse getStatistics(String username) throws UserNotFoundException;
+    public StatisticsResponse getStatistics(String authorization) throws UserNotFoundException;
 }

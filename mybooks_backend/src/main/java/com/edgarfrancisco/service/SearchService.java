@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface SearchService {
 
-    List<BookResponse> searchByField(String searchField, String searchQuery, String username)
+    List<BookResponse> searchByField(String searchField, String searchQuery, String authorization)
             throws UserNotFoundException, BlankSearchQueryException;
 }

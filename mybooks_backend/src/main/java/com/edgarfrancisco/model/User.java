@@ -1,6 +1,5 @@
 package com.edgarfrancisco.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -177,7 +176,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -198,7 +197,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-authors")
     public List<Author> getAuthors() { return authors; }
 
     public void setAuthors(List<Author> authors) { this.authors = authors; }
@@ -215,7 +214,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-tags")
     public List<Tag> getTags() { return tags; }
 
     public void setTags(List<Tag> tags) { this.tags = tags; }
@@ -232,7 +231,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-custom-collections")
     public List<CustomCollection> getCustomCollections() {
         return customCollections;
     }
@@ -252,7 +251,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-publisher")
     public List<Publisher> getPublishers() { return publishers; }
 
     public void setPublishers(List<Publisher> publishers) { this.publishers = publishers; }
@@ -269,7 +268,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-category")
     public List<Category> getCategories() { return categories; }
 
     public void setCategories(List<Category> categories) { this.categories = categories; }
@@ -286,7 +285,7 @@ public class User {
     }
 
 
-    @JsonBackReference
+//    @JsonBackReference(value = "user-collection")
     public List<Collection> getCollections() {
         return collections;
     }

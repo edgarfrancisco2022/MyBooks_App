@@ -44,7 +44,7 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "tag-books")
     public List<Book> getBooks() {
         return books;
     }
@@ -65,7 +65,7 @@ public class Tag {
         book.getTags().remove(this);
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "tag-user")
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
