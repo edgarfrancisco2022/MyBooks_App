@@ -1,4 +1,4 @@
-# myBooks_app
+# MyBooks
 A Responsive Full Stack CRUD App - Junior Portfolio Project #1
 
 ## Description
