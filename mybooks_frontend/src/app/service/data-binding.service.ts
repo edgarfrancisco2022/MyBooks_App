@@ -46,7 +46,6 @@ export class DataBindingService {
   }
 
   onGetBooksChange(searchResults: any): void {
-    console.log('changing books');
     this.getBooks$.next(searchResults);
   }
 

@@ -32,27 +32,22 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   constructor(private bookService: BookService,
               private searchComponent: SearchComponent,
-              private dataBindingService: DataBindingService) { console.log('pagination constructor'); }
+              private dataBindingService: DataBindingService) {}
 
   ngOnDestroy(): void {
-    console.log('pagination onDestroy');
     this.subscription$.unsubscribe();
   }
 
   ngOnInit(): void {
-    console.log('pagination onInit')
     this.loadData();
 
   }
 
   loadData() {
-    console.log('inside load data');
     setTimeout(() => {
       this.data$ = this.dataBindingService.getBooks();
       this.subscription$ = this.data$.subscribe(
         (response) => {
-          console.log('pagination subscription');
-          console.log(response);
           this.pageableObject = response;
           this.initPagination(this.currentPage);
         },
@@ -74,8 +69,6 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   initPagination(page: number) {
-    console.log('UpdatePagination')
-    console.log(this.pageableObject.totalPages);
     this.totalPages = [];
 
     for (let i = 1; i <= this.pageableObject.totalPages; i++) {
@@ -126,8 +119,6 @@ export class PaginationComponent implements OnInit, OnDestroy {
   onPageLinkClicked(iIndex: number) {
     this.getBooks(iIndex, this.numberOfItemsPerPage);
     this.currentPage = iIndex + 1;
-
-    console.log(this.currentPage);
   }
 
   onPrevPageClicked() {

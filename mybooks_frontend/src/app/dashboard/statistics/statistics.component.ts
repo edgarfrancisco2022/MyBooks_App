@@ -23,13 +23,7 @@ export class StatisticsComponent implements OnInit {
   getStatistics() {
     this.statisticsService.getStatistics().subscribe(
       (response) => {
-        console.log(response);
-        // this.statisticsResponse.totalBooks = response.totalBooks;
-        // this.statisticsResponse.totalAuthors = response.totalAuthors;
-        // this.statisticsResponse.totalLists = response.totalLists;
-        // this.statisticsResponse.totalPublishers = response.totalPublishers;
-        // this.statisticsResponse.totalCategories = response.totalCategories;
-        // this.statisticsResponse.totalTags = response.totalTags;
+
         this.statisticsResponse = response;
       },
       (error) => {

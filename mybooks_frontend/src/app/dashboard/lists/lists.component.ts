@@ -38,7 +38,6 @@ export class ListsComponent implements OnInit {
   onAddNewList(addNewList: NgForm) {
     this.listService.addNewList(this.newList).subscribe(
       (response: any) => {
-        console.log(response);
         this.newList = null;
         this.getLists();
       },
@@ -56,7 +55,6 @@ export class ListsComponent implements OnInit {
   onDeleteListConfirmed() {
     this.listService.deleteList(this.listOfLists[this.listIndex].customCollection.customCollectionName).subscribe(
       (response: any) => {
-        console.log(response);
         this.getLists();
       },
       (error: HttpErrorResponse) => {
@@ -77,7 +75,6 @@ export class ListsComponent implements OnInit {
       .customCollectionName,
       this.listOfLists[listIndex].books[bookIndex].callNumber).subscribe(
         (response) => {
-          console.log(response);
           this.listOfLists[listIndex].books.splice(bookIndex, 1);
         },
         (error) => {

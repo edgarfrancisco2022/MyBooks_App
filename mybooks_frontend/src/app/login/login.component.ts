@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.authenticationService.login(user).subscribe(
         (response: HttpResponse<User>) => {
-          console.log(response);
           // 1 get token and add it to local storage
           const token = response.headers.get(this.JWT_TOKEN_HEADER);
           this.authenticationService.saveToken(token);
@@ -74,7 +73,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.authenticationService.login(user).subscribe(
           (response: HttpResponse<User>) => {
-            console.log(response);
             // 1 get token and add it to local storage
             const token = response.headers.get(this.JWT_TOKEN_HEADER);
             this.authenticationService.saveToken(token);

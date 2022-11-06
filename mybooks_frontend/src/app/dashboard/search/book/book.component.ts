@@ -54,7 +54,6 @@ export class BookComponent implements OnInit, AfterViewInit {
       (event) => {
         this.listService.searchBySearchQuery(event.target.value).subscribe(
           (response: CustomCollection[]) => {
-            console.log(JSON.stringify(response));
             this.listOfLists = response;
           },
           (error: HttpErrorResponse) => {
@@ -77,8 +76,6 @@ export class BookComponent implements OnInit, AfterViewInit {
             e.target != document.querySelector('.lists-dropdown') &&
             e.target != document.querySelector('.lists-dropdown .select-list') &&
             e.target != document.querySelector('.lists-dropdown span')) {
-
-          console.log(e.target);
 
           listExpaned.style.display = 'none';
           let listInput: any = document.getElementById('listInput');
@@ -120,7 +117,6 @@ export class BookComponent implements OnInit, AfterViewInit {
 
     this.bookService.deleteBook(this.bookInfo.callNumber).subscribe(
       (response: CustomHttpResponse) => {
-        console.log(response);
       },
       (errorResponse: HttpErrorResponse) => {
         console.log(errorResponse);
@@ -179,7 +175,7 @@ export class BookComponent implements OnInit, AfterViewInit {
   onAddToListConfirmed() {
     this.listService.addBookToList(this.selectedList, this.bookInfo.callNumber).subscribe(
       (response) => {
-        console.log(response);
+
       },
       (error) => {
         console.log(error);

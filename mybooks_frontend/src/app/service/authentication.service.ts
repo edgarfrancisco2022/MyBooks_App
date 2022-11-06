@@ -22,12 +22,10 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
   register(user: User): Observable<User> {
-    console.log(user);
     return this.http.post<User>(`${this.host}/user/register`, user);
   }
 
   login(user: User): Observable<HttpResponse<User>> {
-    console.log(user);
     return this.http.post<User>(`${this.host}/user/login`, user, {observe: 'response'});
     //The observe option specifies how much of the response to return
     //options are 'body' | 'events' | 'response'

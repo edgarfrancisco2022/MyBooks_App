@@ -48,10 +48,6 @@ export class AddItemsComponent implements OnInit {
   submitDisabled = true;
 
   isDisabled() {
-    console.log(this.atLeastOneAuthorAdded);
-
-    // this.inputValidation['title'] && this.inputValidation['publisher'] && this.inputValidation['year'] && this.inputValidation['year'] && this.inputValidation['callnumber'] && this.inputValidation['category']
-
     if (
       this.title.length >= 2 && this.publisherName.length >= 2 && (!isNaN(Number(this.year)) && this.year.length > 0) && this.callnumber.length >= 2 && this.categoryName.length >= 2 && this.atLeastOneAuthorAdded
       ) {
@@ -114,7 +110,7 @@ export class AddItemsComponent implements OnInit {
 
     this.bookService.addNewBook(book).subscribe(
       (response: Book) => {
-        console.log('backend: ' + JSON.stringify(response));
+
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -151,7 +147,6 @@ export class AddItemsComponent implements OnInit {
         book.collection = collection;
       }
 
-      console.log(book);
       return book;
     }
 
@@ -184,8 +179,6 @@ export class AddItemsComponent implements OnInit {
   // Input fields validation---------------------
 
   validateTextField(input: string, variableName: string) {
-    console.log(input);
-    console.log(variableName);
     if (input === undefined || input.length < 2) {
       this.inputValidation[variableName] = false;
     } else {

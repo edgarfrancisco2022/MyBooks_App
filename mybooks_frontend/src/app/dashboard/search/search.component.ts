@@ -40,10 +40,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
   constructor(private searchService: SearchService,
               private dataBindingService: DataBindingService,
               private bookService: BookService,
-              private appComponent: AppComponent) { console.log('search constructor');}
+              private appComponent: AppComponent) { }
 
   ngOnInit(): void {
-    console.log('search onInit');
     this.dataBindingService.getSideNavSearchClicked().subscribe((searchClicked: boolean) => {
       this.onCloseBook();
     });
@@ -61,7 +60,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.placeholderDiv = document.querySelector('.placeholder-div');
 
     this.dataBindingService.getBookHeight().subscribe((height: number) => {
-      console.log(height);
       this.placeholderDiv.style.height = height.toString() + "px";
     });
   }
@@ -70,11 +68,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.togglerClickedSubscription$ = this.togglerClickedSubject$.subscribe(
       (togglerClicked) => {
         let bookElement: HTMLElement = document.querySelector('.showBook');
-        console.log('toggler subscription');
         if (window.innerWidth <= 490) {
           if (togglerClicked) {
             if (bookElement != null) {
-              console.log('bookElement != null');
               bookElement.style.top = 'calc(64px + 110px)';
             }
           } else {
@@ -84,12 +80,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
           }
         } else {
           if (togglerClicked && window.innerWidth < 768) {
-            console.log('> 490 toggler clicked logic');
             if (bookElement != null) {
               bookElement.style.top = '117px';
             }
           } else {
-            console.log('> 490 toggler not clicked logic');
             if (bookElement != null) {
               bookElement.style.top = '72px';
             }
@@ -103,8 +97,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   getBooks(page: number, size: number) {
     this.bookService.getBooks(page, size).subscribe(
       (response: any)=> {
-        console.log('Getting books from back end');
-        console.log(response);
         this.showPagination = true;
         this.searchResults = response.content;
         this.dataBindingService.onGetBooksChange(response);
@@ -116,7 +108,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   setDisplayBook(book: Book, index: number) {
-    console.log('set display book');
 
     this.dataBindingService.onBookClosed(false);
 
@@ -198,7 +189,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     this.searchService.searchByField(form.value['defaultSearchOption'], form.value['searchQuery']).subscribe(
       (response: Book[]) => {
-        console.log(response);
         this.showPagination = false;
         this.searchResults = response;
       },

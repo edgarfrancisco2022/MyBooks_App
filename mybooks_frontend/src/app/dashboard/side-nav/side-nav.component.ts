@@ -17,7 +17,7 @@ export class SideNavComponent implements OnInit {
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.activatedRoute.snapshot.routeConfig.path);
+ 
   }
 
   classActive(activeClass: string) {

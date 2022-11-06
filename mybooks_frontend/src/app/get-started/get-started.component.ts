@@ -28,7 +28,6 @@ export class GetStartedComponent implements OnInit {
   onRegister(user: User, registerForm: NgForm): void {
     this.authenticationService.register(user).subscribe(
       (response: User) => {
-        console.log(response);
         registerForm.resetForm();
         this.accountCreated = true;
       },
