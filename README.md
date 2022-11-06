@@ -50,6 +50,3 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 
 
 
-
-
-
