@@ -1,0 +1,140 @@
+<div class="add-container">
+  <h2>Update Book</h2>
+  <div class="form-background">
+    <form class="add-form" #addItemForm="ngForm">
+      <div class="form-element">
+        <label for="title">Title*</label>
+        <input type="text" id="title" name="title" required
+          [(ngModel)]="title" (blur)="validateTextField(title, 'title')">
+        <span class="validation"
+        *ngIf="inputValidation['title']===false && title.length < 2">Must be at least 2 characters long</span>
+      </div>
+      <div class="form-element">
+        <label for="subtitle">Subtitle</label>
+        <input type="text" id="subtitle" name="subtitle"
+          [(ngModel)]="subtitle">
+      </div>
+      <div class="form-element">
+        <div class="five-cols">
+          <div class="form-element publisher-element">
+            <label for="publisher">Publisher*</label>
+            <input type="text" id="publisher" name="publisher" required
+              [(ngModel)]="publisherName" (blur)="validateTextField(publisherName, 'publisher')">
+            <span class="validation"
+            *ngIf="inputValidation['publisher']===false && publisherName.length < 2">Must be at least 2 characters long</span>
+          </div>
+          <div class="form-element year-element">
+            <label for="year">Year*</label>
+            <input type="text" id="year" name="year" required
+              [(ngModel)]="year" (blur)="validateNumberField(year, 'year')">
+            <span class="validation"
+            *ngIf="inputValidation['year']===false">Must be a number</span>
+          </div>
+          <div class="form-element pages-element">
+            <label for="pages">Pages</label>
+            <input type="number" id="pages" name="pages"
+              [(ngModel)]="pages">
+          </div>
+          <div class="form-element copies-element">
+            <label for="copies">Copies</label>
+            <input type="number" id="copies" name="copies"
+              [(ngModel)]="copies">
+          </div>
+          <div class="form-element callnumber-element">
+            <label for="callnumber">Callnumber*</label>
+            <input type="text" id="call" name="callnumber" required disabled
+              [(ngModel)]="callnumber"
+              (blur)="validateTextField(callnumber, 'callnumber')">
+            <span class="validation"
+              *ngIf="inputValidation['callnumber']===false && callnumber.length < 2">Must be at least 2 characters long</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-element">
+        <div class="two-cols">
+          <div class="form-element">
+            <label for="category">Category*</label>
+            <input type="text" id="category" name="category" required
+              [(ngModel)]="categoryName"
+              (blur)="validateTextField(categoryName, 'category')">
+            <span class="validation"
+              *ngIf="inputValidation['category']===false && categoryName.length < 2">Must be at least 2 characters long</span>
+          </div>
+          <div class="form-element">
+            <label for="collection">Collection</label>
+            <input type="text" id="collection" name="collection"
+              [(ngModel)]="collectionName">
+          </div>
+        </div>
+      </div>
+      <div class="add-multiple">
+        <div class="authors">
+          <div class="four-cols">
+            <div class="form-element">
+              <label for="firstName">First name*</label>
+              <input type="text" id="firstName" name="firstName"
+                [(ngModel)]="firstName">
+            </div>
+            <div class="form-element">
+              <label for="middleName">Middle</label>
+              <input type="text" id="middleName" name="middleName"
+                [(ngModel)]="middleName">
+            </div>
+            <div class="form-element">
+              <label for="lastName">Last name*</label>
+              <input type="text" id="lastName" name="lastName"
+                [(ngModel)]="lastName">
+            </div>
+            <div class="button">
+              <button class="btn btn-dark" (click)="onAddAuthor()">
+                <span class="material-symbols-sharp">person_add</span>
+              </button>
+            </div>
+          </div>
+          <div class="authors-added">
+            <p class="authors-added-text">Authors added:</p>
+            <div class="authors-added-group">
+              <div class="authors-added-authors" *ngFor="let auth of authors; let i = index">
+                <p class="author-name">{{ auth.fullName }}</p>
+                <button class="btn btn-danger button" (click)="onRemoveAuthor(i)">
+                  <span class="material-symbols-sharp">remove</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="add-multiple">
+        <div class="tags">
+          <div class="tags-grid">
+            <div class="form-element">
+              <label for="tag">Tag(s)</label>
+              <div class="tag-input-element">
+                <input type="text" id="tag" name="tag" [(ngModel)]="tagName">
+              </div>
+            </div>
+            <div class="button add-tag-button">
+              <button class="btn btn-dark" (click)="onAddTag()">
+                <span class="material-symbols-sharp">new_label</span>
+              </button>
+            </div>
+          </div>
+          <div class="tags-added">
+            <p class="tags-added-text">Tags added:</p>
+            <div class="tags-added-group">
+              <div class="tags-added-tags" *ngFor="let tag of tags; let i = index">
+                <p class="tag-name">{{ tag.tagName }}</p>
+                <button class="btn btn-danger button" (click)="onRemoveTag(i)">
+                  <span class="material-symbols-sharp">remove</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button [disabled]="isDisabled()" class="submit-button btn btn-dark"
+        (click)="onUpdateItemFormSubmit()">Update Book
+      </button>
+    </form>
+  </div>
+</div>

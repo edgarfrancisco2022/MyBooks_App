@@ -2,11 +2,6 @@ demo
 1u0nMyRMsx
 
 
-frontend2
-iiT3xWzFtQ
-
-
-
 {
 "callNumber":"001",
 "title":"Book 1",
@@ -25,8 +20,6 @@ iiT3xWzFtQ
 "user":{"id":null,"userId":null,"firstName":"User 1","lastName":null,"username":null,"email":null,"password":null,"lastLoginDate":null,"displayLastLogin":null,"joinDate":null,"role":null,"books":null,"customCollections":null,"active":false,"locked":false,"authorities":null}
 }
 
-
-// without ids
 {
 "callNumber":"001",
 "title":"Book 1",

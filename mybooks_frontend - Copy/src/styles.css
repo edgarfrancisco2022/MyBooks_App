@@ -1,0 +1,38 @@
+/* Global Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+
+.material-symbols-sharp {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+
+/* Variables */
+:root {
+  --color-primary: rgb(13,110,253);
+  --color-secondary: #212529;
+  --color-secondary-light: #424649;
+  --color-secondary-dark: #2c3034;
+  --color-success: #198754;
+  --color-danger: #dc3545;
+  --color-light: #f8f9fa;
+  --box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
+
+

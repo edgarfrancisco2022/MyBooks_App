@@ -1,0 +1,80 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" id="delete-list-modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-title">
+          <span class="material-symbols-sharp">delete</span>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">You are about to delete a list</h1>
+        </div>
+        <button type="button" class="btn-close close-button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This will remove your list from the database permanently. All book references within the list will be lost. Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="closeModal" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+          (click)="onDeleteListConfirmed()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="list-container">
+  <div class="form-background">
+    <div class="form-wrapper">
+      <form #addNewList="ngForm" (ngSubmit)="onAddNewList(addNewList)">
+        <div class="search-bar form-group">
+          <span class="material-symbols-sharp">playlist_add</span>
+          <input type="text" placeholder="Add new list" name="newList"
+            [(ngModel)]="newList">
+        </div>
+        <button [disabled]="isDisabled()" type="submit" class="btn btn-dark">Add List</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="accordion-wrapper">
+    <h3>My Lists:</h3>
+
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item" *ngFor="let list of listOfLists; let i = index">
+        <h2 class="accordion-header" [id]="'heading' + i">
+          <button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i">
+            <div class="header-container">
+              <span class="material-symbols-sharp header-icon">list_alt</span>
+              <div class="header-title">
+                {{ list.customCollection.customCollectionName }}
+              </div>
+                <a (click)="onDeleteList($event, i)" data-bs-toggle="collapse"><span class="material-symbols-sharp btn btn-light header-delete">delete</span></a>
+            </div>
+          </button>
+        </h2>
+        <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i">
+          <div class="accordion-body">
+            <div class="empty-list" *ngIf="list.books.length == 0">
+              <span class="material-symbols-sharp">note</span>
+              <p>List is empty. Add a book from the Search feature!</p>
+            </div>
+            <div class="list-item" *ngFor="let book of list.books; let j = index">
+              <span class="material-symbols-sharp list-item-check">check</span>
+              <div class="book-title">{{ book.title }}</div>
+              <span class="material-symbols-sharp list-item-number">tag</span>
+              <div class="callnumber">{{ book.callNumber }}</div>
+              <div class="item-delete-element" (click)="onRemoveBookFromList(i, j)"><span class="material-symbols-sharp btn item-delete">delete</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

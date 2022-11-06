@@ -1,0 +1,80 @@
+<div class="book" id="superZIndex" [ngClass]="{showBook: displayBook, hideBook: !displayBook, closeBook: closeBook}">
+  <app-book class="book-component" [bookInfo]="bookInfo"></app-book>
+</div>
+
+
+<div class="placeholder-div" [ngStyle]="{display: getPlaceholderDisplayProperty()}"></div>
+
+<div class="search-container" [ngStyle]="{display: getDisplayProperty()}">
+  <div class="form-background">
+    <div class="form-wrapper">
+      <form #searchForm="ngForm" (ngSubmit)="onSearchQuerySubmit(searchForm)">
+        <div class="search-bar form-group">
+          <span class="material-symbols-sharp">search</span>
+          <input type="text" placeholder="Type your search" name="searchQuery"
+            [(ngModel)]="searchQuery">
+        </div>
+        <div class="search-search-items">
+          <label for="search-items">Search by:</label>
+          <select name="search-items" id="search-itmes" name="defaultSearchOption"
+            [(ngModel)]="searchOption">
+            <option value="callnumber">Call Number</option>
+            <option value="title" selected>Title</option>
+            <option value="subtitle">Subtitle</option>
+            <option value="year">Year</option>
+            <option value="author">Author</option>
+            <option value="tag">Tag</option>
+            <option value="list">List</option>
+            <option value="publisher">Publisher</option>
+            <option value="category">Category</option>
+            <option value="collection">Collection</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-dark">Search</button>
+      </form>
+    </div>
+    <div class="get-all-books"><a (click)="getBooks(0, numberOfItemsPerPage)">Get all books</a></div>
+  </div>
+
+  <div class="book-results">
+    <div class="card-wrapper" *ngFor="let book of searchResults; let i = index"
+    (click)="setDisplayBook(book, i)">
+      <div class="title-row">
+        <div class="book-count"><span class="shape">{{ i + 1 }}</span></div>
+        <div class="title-and-subtitle">
+          <div class="title">{{ book.title }}</div>
+          <div class="subtitle">{{ book.subtitle }}</div>
+        </div>
+        <div class="callnumber"><span class="shape">{{ '#' + book.callNumber }}</span></div>
+      </div>
+      <div class="info-row">
+        <div class="book-icon">
+          <span class="material-symbols-sharp">book</span>
+        </div>
+        <div class="lines">
+          <div class="author">
+            <span class="material-symbols-sharp icon-badge">badge</span>
+            <div class="author-text">{{ book.authors[0]['fullName'] }}</div>
+          </div>
+          <div class="publisher">
+            <span class="material-symbols-sharp icon-print">print</span>
+            <div class="publisher-text">{{ book.publisher['publisherName'] }}</div>
+          </div>
+          <div class="year">
+            <span class="material-symbols-sharp icon-calendar">calendar_month</span>
+            <div class="year-text">{{ book.year }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="category-row">
+          <span class="shape">{{ book.category === null ? 'undefined' : book.category['categoryName'] }}</span>
+      </div>
+    </div>
+  </div>
+
+  <app-pagination *ngIf="showPagination && searchResults.length > 0" [numberOfItemsPerPage]="numberOfItemsPerPage"></app-pagination>
+</div>
+
+
+
+

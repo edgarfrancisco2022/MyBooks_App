@@ -1,0 +1,126 @@
+<div class="stats-container">
+  <h2>Statistics</h2>
+  <div class="stats">
+    <div class="total stats-card books-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon">stacked_line_chart</span>
+          <h5 class="total-text">Total Books:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalBooks }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-books3.svg#total-books3"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">library_books</span>
+        </div>
+      </div>
+    </div>
+    <div class="total stats-card authors-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon graph-icon-two">stacked_line_chart</span>
+          <h5 class="total-text">Total Authors:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalAuthors }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-author2.svg#total-author2"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">edit</span>
+        </div>
+      </div>
+    </div>
+    <div class="total stats-card lists-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon graph-icon-three">stacked_line_chart</span>
+          <h5 class="total-text">Total Lists:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalLists }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-list3.svg#total-list3"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">list_alt</span>
+        </div>
+      </div>
+    </div>
+    <div class="total stats-card publishers-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon graph-icon">stacked_line_chart</span>
+          <h5 class="total-text">Total Publishers:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalPublishers }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-list3.svg#total-list3"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">print</span>
+        </div>
+      </div>
+    </div>
+    <div class="total stats-card categories-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon graph-icon-two">stacked_line_chart</span>
+          <h5 class="total-text">Total Categories:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalCategories }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-list3.svg#total-list3"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">category</span>
+        </div>
+      </div>
+    </div>
+    <div class="total stats-card tags-card">
+      <div class="info">
+        <div class="info-left">
+          <span class="material-symbols-sharp graph-icon graph-icon-three">stacked_line_chart</span>
+          <h5 class="total-text">Total Tags:</h5>
+          <h1 class="total-number">{{ statisticsResponse.totalTags }}</h1>
+        </div>
+        <div class="info-right">
+          <!-- <svg class="icon">
+            <use xlink:href="assets/images/total-list3.svg#total-list3"></use>
+          </svg> -->
+          <span class="material-symbols-sharp">label</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Latest Books added/updated:</h3>
+
+</div>
+<div class="table-container">
+  <table class="table table-dark table-hover overflow-hidden rounded">
+    <thead>
+      <tr>
+        <th class="callnumber" scope="col">Call Number</th>
+        <th scope="col">Title</th>
+        <th class="year" scope="col">Year</th>
+        <th class="author" scope="col">Author</th>
+        <th class="category" scope="col">Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of statisticsResponse.latestBooksAdded">
+        <td class="callnumber">{{ book.callNumber }}</td>
+        <td>{{ book.title }}</td>
+        <td class="year">{{ book.year }}</td>
+        <td class="author">{{ book.authors[0].fullName }}</td>
+        <td class="category">{{ book.category.categoryName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand navbar-logo" href="#">
+      <svg class="icon">
+        <!-- <use xlink:href="assets\images\library-of-three-books-hand-drawn-tools-svgrepo-com.svg#library-of-three-books-hand-drawn-tools-svgrepo-com"></use> -->
+          <use xlink:href="assets/images/logo2.svg#logo2"></use>
+      </svg>
+      <div class="logo-text"><span class="logo-left">My</span><span>Books</span></div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded=false aria-label="Toggle navigation"
+      (click)="onTogglerClicked()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active fs-5" aria-current="page" href="#">Home</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link fs-5" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled fs-5">Features</a>
+        </li>
+        <li class="nav-item login-link">
+          <a class="nav-link fs-5" href="#">Login</a>
+        </li> -->
+      </ul>
+      <button *ngIf="!isUserLoggedIn()"
+        type="button" class="btn btn-light login-btn"
+        routerLink="login" roterLink="/login">Login</button>
+      <button *ngIf="isUserLoggedIn()"
+        type="button" class="btn btn-dark login-btn"
+        routerLink="/login" (click)="onLogout()">Logout</button>
+      <button *ngIf="!isUserLoggedIn()"
+        type="button" class="btn btn-dark get-started-btn"
+        routerLink="/register">Get Started</button>
+      <!-- <button *ngIf="isUserLoggedIn()"
+        type="button" class="btn btn-dark get-started-btn">Settings</button> -->
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+
+
+
+

@@ -1,0 +1,64 @@
+.form-register {
+  padding: 2rem 6rem;
+  /* border: 1px solid rgba(0, 0, 0, .3); */
+  border-radius: .5rem;
+  margin-inline: auto;
+  width: 36rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  margin-bottom: 5rem;
+}
+
+.account-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 3rem;
+  aspect-ratio: 1;
+}
+
+.btn-submit {
+  display: block;
+  margin-inline: auto;
+  width: 60%;
+}
+
+.account-created {
+  margin-top: 1rem;
+  color: var(--color-success);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 767px) {
+  .form-register {
+    padding: 2rem 3rem;
+    width: 30rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-register {
+    padding: 2rem 1.5rem;
+    width: 24rem;
+  }
+
+  .account-info {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .form-register {
+    padding: 2rem 1rem;
+    width: 17rem;
+  }
+}
+
+
+
+
+

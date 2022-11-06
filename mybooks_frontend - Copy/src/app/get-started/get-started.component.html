@@ -1,0 +1,33 @@
+  <div class="container mt-4">
+    <form #registerForm="ngForm" class="form-register" (ngSubmit)="onRegister(registerForm.value, registerForm)">
+      <div class="account-info">
+        <div>Create new account:</div>
+        <svg class="icon">
+          <use xlink:href="assets\images\add-user.svg#add-user"></use>
+        </svg>
+      </div>
+      <div class="mb-2">
+        <label for="firstName" class="form-label">First name*</label>
+        <input type="text" class="form-control" id="firstName" name="firstName"
+        required ngModel #firstName="ngModel">
+      </div>
+      <div class="mb-2">
+        <label for="lastName" class="form-label">Last name*</label>
+        <input type="text" class="form-control" id="lastName" name="lastName"
+        required ngModel #lastName="ngModel">
+      </div>
+      <div class="mb-2">
+        <label for="username" class="form-label">Username*</label>
+        <input type="text" class="form-control" id="username" name="username"
+        required ngModel #username="ngModel">
+      </div>
+      <div class="mb-2">
+        <label for="exampleInputEmail1" class="form-label">Email address*</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required ngModel #email="ngModel">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <button type="submit" [disabled]="isDisabled(registerForm)" class="btn btn-dark mt-4 btn-submit">Submit</button>
+      <div class="account-created" *ngIf="accountCreated">Account created successfully! Please check your email to get your password 🔑</div>
+    </form>
+  </div>
+

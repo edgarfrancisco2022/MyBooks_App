@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <form #loginForm="ngForm" class="form-login" (ngSubmit)="onLogin(loginForm.value)">
+    <div class="login-info">
+      <div>Login info:</div>
+      <svg class="icon">
+        <use xlink:href="assets/images/login.svg#login"></use>
+      </svg>
+    </div>
+    <div class="mb-2">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" id="username" name="username"
+      required ngModel #username="ngModel">
+    </div>
+    <div class="mb-2">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password"
+      required ngModel #password="ngModel">
+    </div>
+    <button type="submit" class="btn btn-dark btn-submit"
+      [disabled]="isDisabled(loginForm)">Submit</button>
+    <div class="hasNot">
+      <div class="sign-up">
+        Don't have an account? <a class="link" routerLink="/register">Sign Up!</a>
+      </div>
+      <div class="demo-account">
+        Or login with a <a class="link" (click)="demoAccountLogin()">Demo Account</a>
+      </div>
+    </div>
+  </form>
+</div>
+

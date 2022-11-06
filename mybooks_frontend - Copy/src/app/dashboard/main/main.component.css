@@ -1,0 +1,39 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.side-navigation {
+  z-index: 100;
+  min-height: calc(100vh - 72px);
+}
+
+@media (max-width: 490px) {
+  .side-navigation {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    grid-template-columns: 1fr 5fr;
+  }
+}
+
+@media (max-width: 1050px) {
+  .dashboard-container {
+    grid-template-columns: 1fr 6fr;
+  }
+}
+
+@media (max-width: 1000px) {
+  .dashboard-container {
+    grid-template-columns: 3.5rem 15fr;
+  }
+}
+
+@media (max-width: 490px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+}

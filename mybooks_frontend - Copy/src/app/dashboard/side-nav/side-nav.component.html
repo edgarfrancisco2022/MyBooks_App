@@ -1,0 +1,33 @@
+<aside class="bg-light text-dark">
+  <div class="top">
+    <div class="close" id="close-btn">
+      <span class="material-symbols-sharp">close</span>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <a [ngClass]="{active: activeFeature === 'mybooks' && !searchRouterLink.isActive && !addRouterLink.isActive && !listRouterLink.isActive}"
+      (click)="classActive('mybooks')"
+      routerLink="statistics"
+      routerLinkActive="active"
+      #rla="routerLinkActive">
+      <span class="material-symbols-sharp">menu_book</span>
+      <h3>MyBooks</h3>
+    </a>
+    <a routerLinkActive="active" (click)="classActive('search')" routerLink="search"
+      #searchRouterLink="routerLinkActive">
+      <span class="material-symbols-sharp">find_in_page</span>
+      <h3>Search</h3>
+    </a>
+    <a href="#" routerLinkActive="active" (click)="classActive('add')" routerLink="add"
+    #addRouterLink="routerLinkActive">
+      <span class="material-symbols-sharp">library_add</span>
+      <h3>Add items</h3>
+    </a>
+    <a href="#" routerLinkActive="active" (click)="classActive('list')" routerLink="list"
+    #listRouterLink="routerLinkActive">
+      <span class="material-symbols-sharp">list_alt</span>
+      <h3>Lists</h3>
+    </a>
+  </div>
+</aside>

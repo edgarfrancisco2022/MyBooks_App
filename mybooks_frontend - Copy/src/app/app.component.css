@@ -1,0 +1,93 @@
+nav {
+  z-index: 10;
+}
+
+
+.icon {
+  fill: var(--color-secondary);
+  width: 3.5rem;
+  aspect-ratio: 1;
+  margin-right: .5rem;
+}
+
+.navbar-logo {
+  padding-left: 2rem;
+  padding-right: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-content: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar-logo .logo-left {
+  color: var(--color-secondary);
+  font-weight: 700;
+}
+
+.login-btn,
+.get-started-btn {
+  padding-inline: 2rem;
+  margin-right: 2rem;
+}
+
+@media(max-width: 890px) {
+  /* .login-btn,
+  .get-started-btn {
+    padding-inline: 0.5rem;
+  } */
+
+  /* .login-btn {
+    margin-right: 1rem;
+  } */
+
+  .navbar-nav {
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .login-btn {
+    margin-top: 0.5rem;
+    display: block;
+    min-width: 15rem;
+    margin-inline: auto;
+  }
+
+  .get-started-btn {
+    margin-top: 1rem;
+    display: block;
+    min-width: 15rem;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-link {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar-logo {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .navbar-logo .icon {
+    fill: rgba(255, 255, 255, 0.926);
+  }
+}
+
+/* UTILITY */
+.margin-right-600 {
+  margin-right: 3rem;
+}
+
+
+

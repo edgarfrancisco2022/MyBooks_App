@@ -1,0 +1,23 @@
+<nav aria-label="..." class="pagination-container">
+  <ul class="pagination justify-content-center">
+    <li class="page-item pagination-prev">
+      <a class="page-link" (click)="onPrevPageClicked()">Prev</a>
+    </li>
+    <ng-container *ngFor="let page of totalPages; let i = index">
+      <li class="page-item page-item-test" aria-current="page"
+        [id]="'page' + (i + 1)"
+        *ngIf="i + 1 >= position && i + 1 < position + maxNumberOfPagesDisplayed">
+          <span class="page-link" *ngIf="isPageItemActive(i + 1)">{{ i + 1 }}</span>
+          <a class="page-link" *ngIf="!isPageItemActive(i + 1)"
+            (click)="onPageLinkClicked(i)">{{ i + 1 }}</a>
+      </li>
+    </ng-container>
+    <li class="page-item page-item-test total-pages" aria-current="page"
+      *ngIf="totalPagesLength > 3">
+      <span class="page-link">...{{ totalPagesLength }}</span>
+    </li>
+    <li class="page-item pagination-next">
+      <a class="page-link" (click)="onNextPageClicked()">Next</a>
+    </li>
+  </ul>
+</nav>

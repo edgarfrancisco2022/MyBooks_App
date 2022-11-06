@@ -1,0 +1,16 @@
+.pagination-container {
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+}
+
+.page-item a {
+  cursor: pointer;
+}
+
+.total-pages span {
+  color: #6c757d;
+}
+
+.total-pages span:hover {
+  background-color: white;
+}
