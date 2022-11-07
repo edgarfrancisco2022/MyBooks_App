@@ -22,28 +22,28 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 10. Angular
 
 ## Features
-1. Complex Database relationships (for a simple user experience).
-2. Creating book items (multiple authors/tags).
-3. Retrieving book items.
-4. Updating book items.
-5. Deleting book items. 
-6. Creating list items.
-7. Adding book items to list items.
-8. Deleting book items from list items.
-9. Deleting list items.
-10. Statitics page.
-11. User registration.
-12. User login.
-13. User logout.
-14. Simple search feature by field (for book search).
-15. Advanced search with autocomplete feature (for list search).
-16. Search results card view.
-17. Search results detail view.
-18. Pagination (when retrieving all books).
-19. Form validation.
-20. Security with JWT.
-21. Fully responsive.
+1. Creating book items (multiple authors/tags).
+2. Retrieving book items.
+3. Updating book items.
+4. Deleting book items. 
+5. Creating list items.
+6. Adding book items to list items.
+7. Deleting book items from list items.
+8. Deleting list items.
+9. Statitics page.
+10. User registration.
+11. User login.
+12. User logout.
+13. Simple search feature by field (for book search).
+14. Advanced search with autocomplete feature (for list search).
+15. Search results card view.
+16. Search results detail view.
+17. Pagination (when retrieving all books).
+18. Form validation.
+19. Security with JWT.
+20. Fully responsive.
 
+## EER Diagram
 ![alt text](https://raw.githubusercontent.com/edgarfrancisco2022/myBooks_app/main/MyBooks%20EER%20Diagram.png)
 
 
