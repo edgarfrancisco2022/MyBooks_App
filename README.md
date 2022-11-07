@@ -44,7 +44,7 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 20. Security with JWT.
 21. Fully responsive.
 
-
+![alt text](https://raw.githubusercontent.com/edgarfrancisco2022/myBooks_app/main/MyBooks%20EER%20Diagram.png)
 
 
 
