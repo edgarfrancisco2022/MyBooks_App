@@ -25,11 +25,11 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 1. Creating book items (multiple authors/tags).
 2. Retrieving book items.
 3. Updating book items.
-4. Deleting book items. 
+4. Deleting book items (with confirmation modal). 
 5. Creating list items.
-6. Adding book items to list items.
+6. Adding book items to list items (with add to list modal).
 7. Deleting book items from list items.
-8. Deleting list items.
+8. Deleting list items (with confirmation modal).
 9. Statitics page.
 10. User registration.
 11. User login.
