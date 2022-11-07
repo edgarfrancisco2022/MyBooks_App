@@ -34,8 +34,8 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 10. User registration.
 11. User login.
 12. User logout.
-13. Simple search feature by field (for book search).
-14. Advanced search with autocomplete feature (for list search).
+13. Simple search by field (for book search).
+14. Advanced search with autocomplete (for list search).
 15. Search results card view.
 16. Search results detail view.
 17. Pagination (when retrieving all books).
