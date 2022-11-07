@@ -46,6 +46,11 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 ## EER Diagram
 ![alt text](https://raw.githubusercontent.com/edgarfrancisco2022/myBooks_app/main/MyBooks%20EER%20Diagram.png)
 
+## Search feature screenshot
+Just a preview 🙈. Checkout the live view for more!
+
+![alt text](https://github.com/edgarfrancisco2022/myBooks_app/blob/main/search%20feature%20screenshot.png?raw=true)
+
 
 
 
