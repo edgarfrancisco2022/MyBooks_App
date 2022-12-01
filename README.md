@@ -1,5 +1,5 @@
 # MyBooks
-A Responsive Full Stack CRUD App 💻 - Junior Portfolio Project #1
+A Responsive Full Stack CRUD Web App 💻 - Junior Portfolio Project #1
 <br>
 Checkout the [Live View](http://3.80.156.26)!
 
