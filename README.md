@@ -23,6 +23,9 @@ Each item can be easily updated or deleted. Lists can be created and book items 
 9. Typescript
 10. Angular
 
+##### Server
+1. AWS EC2
+
 ## Features
 1. Creating book items (multiple authors/tags).
 2. Retrieving book items.
