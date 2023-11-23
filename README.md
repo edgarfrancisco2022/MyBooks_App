@@ -1,7 +1,7 @@
 # MyBooks
 A Responsive Full Stack CRUD Web App 💻 - Junior Portfolio Project #1
 <br>
-Checkout the [Live View](http://3.80.156.26)!
+<!--Checkout the [Live View](http://3.80.156.26)!-->
 
 ## Description
 MyBooks is a book cataloguing web app. Book items can be added with fields such as title, year, publisher, category, authors, tags, among other things.
